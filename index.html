@@ -23,7 +23,6 @@
   .auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem 2rem; width: 360px; max-width: 95vw; }
   .auth-logo { font-size: 20px; font-weight: 600; color: var(--blue); margin-bottom: 0.25rem; }
   .auth-sub { font-size: 13px; color: var(--muted); margin-bottom: 2rem; }
-
   .form-group { margin-bottom: 1rem; }
   .form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
   .form-group input { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--surface); color: var(--text); }
@@ -31,11 +30,11 @@
   .btn { padding: 9px 16px; border-radius: var(--radius); border: 1px solid var(--border); font-size: 13px; cursor: pointer; font-weight: 500; }
   .btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); width: 100%; }
   .btn-primary:hover { background: var(--blue-dark); }
-  .btn-sm { padding: 5px 12px; font-size: 12px; }
+  .btn-sm { padding: 5px 12px; font-size: 12px; width: auto; }
   .btn-ghost { background: transparent; color: var(--muted); }
   .btn-ghost:hover { background: var(--bg); }
-  .btn-danger { background: var(--red-light); color: var(--red); border-color: #f7c1c1; }
-  .btn-danger:hover { background: #f7c1c1; }
+  .btn-green { background: #2d7a1f; color: #fff; border-color: #2d7a1f; }
+  .btn-green:hover { background: #236117; }
   .error-msg { font-size: 12px; color: var(--red); background: var(--red-light); border: 1px solid #f7c1c1; border-radius: var(--radius); padding: 8px 12px; margin-bottom: 1rem; display: none; }
   .error-msg.show { display: block; }
 
@@ -45,7 +44,7 @@
   .topbar-brand { font-size: 15px; font-weight: 600; color: var(--blue); }
   .topbar-right { display: flex; align-items: center; gap: 10px; }
   .user-badge { font-size: 12px; color: var(--muted); }
-  .main { padding: 1.5rem; max-width: 1300px; margin: 0 auto; }
+  .main { padding: 1.5rem; max-width: 1400px; margin: 0 auto; }
 
   .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
@@ -69,13 +68,15 @@
   td { padding: 9px 10px; border-bottom: 1px solid var(--border); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   tr:last-child td { border-bottom: none; }
   tbody tr:hover td { background: #fafafa; }
-  th:nth-child(1),td:nth-child(1) { width: 80px; }
-  th:nth-child(2),td:nth-child(2) { width: 120px; }
+  th:nth-child(1),td:nth-child(1) { width: 75px; }
+  th:nth-child(2),td:nth-child(2) { width: 115px; }
   th:nth-child(3),td:nth-child(3) { width: auto; }
-  th:nth-child(4),td:nth-child(4) { width: 70px; }
-  th:nth-child(5),td:nth-child(5) { width: 90px; }
-  th:nth-child(6),td:nth-child(6) { width: 90px; }
-  th:nth-child(7),td:nth-child(7) { width: 100px; }
+  th:nth-child(4),td:nth-child(4) { width: 65px; }
+  th:nth-child(5),td:nth-child(5) { width: 85px; }
+  th:nth-child(6),td:nth-child(6) { width: 85px; }
+  th:nth-child(7),td:nth-child(7) { width: 30px; text-align: center; }
+  th:nth-child(8),td:nth-child(8) { width: 30px; text-align: center; }
+  th:nth-child(9),td:nth-child(9) { width: 150px; }
 
   .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
   .badge-ativo { background: var(--green-light); color: var(--green); }
@@ -84,11 +85,26 @@
   .badge-analise { background: var(--amber-light); color: var(--amber); }
   .badge-cancelar { background: var(--red-light); color: var(--red); }
 
-  .action-btns { display: flex; gap: 4px; }
-  .act-btn { padding: 3px 8px; font-size: 11px; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; }
+  .action-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+  .act-btn { padding: 3px 7px; font-size: 11px; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; white-space: nowrap; }
   .act-btn:hover { background: var(--bg); }
   .act-edit { color: var(--blue); border-color: #b5d4f4; }
   .act-cancel { color: var(--red); border-color: #f7c1c1; }
+  .act-hist { color: var(--amber); border-color: #f5d9a8; }
+
+  /* OBS tooltip */
+  .tip-wrap { position: relative; display: inline-block; cursor: pointer; font-size: 14px; }
+  .tip-wrap .tip-box {
+    display: none; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%);
+    background: #222; color: #fff; padding: 7px 10px; border-radius: 6px; font-size: 11px;
+    white-space: pre-wrap; min-width: 160px; max-width: 260px; z-index: 50; line-height: 1.45;
+    word-break: break-word; pointer-events: none;
+  }
+  .tip-wrap:hover .tip-box { display: block; }
+  .tip-wrap .tip-box::after {
+    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: #222;
+  }
 
   .pagination { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; font-size: 12px; color: var(--muted); flex-wrap: wrap; gap: 8px; }
   .page-btns { display: flex; gap: 4px; }
@@ -101,7 +117,8 @@
   /* MODAL */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
   .modal-overlay.open { display: flex; }
-  .modal { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.75rem; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; }
+  .modal { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.75rem; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; }
+  .modal-lg { max-width: 640px; }
   .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
   .modal-header h2 { font-size: 16px; font-weight: 600; }
   .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); line-height: 1; padding: 0 4px; }
@@ -109,37 +126,58 @@
   .fg { display: flex; flex-direction: column; gap: 4px; }
   .fg.full { grid-column: 1 / -1; }
   .fg label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
-  .fg input, .fg select { padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; background: var(--surface); color: var(--text); }
-  .fg input:focus, .fg select:focus { outline: 2px solid var(--blue); outline-offset: -1px; }
+  .fg input, .fg select, .fg textarea { padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; background: var(--surface); color: var(--text); }
+  .fg textarea { resize: vertical; min-height: 64px; }
+  .fg input:focus, .fg select:focus, .fg textarea:focus { outline: 2px solid var(--blue); outline-offset: -1px; }
   .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); }
 
-  /* USERS PANEL */
-  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; margin-top: 1.5rem; }
+  /* UPLOAD */
+  .upload-area { border: 2px dashed var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .upload-area:hover, .upload-area.drag { border-color: var(--blue); background: var(--blue-light); }
+  .upload-area .u-icon { font-size: 30px; }
+  .upload-area p { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .upload-progress { margin-top: 10px; background: var(--border); border-radius: 20px; height: 6px; display: none; }
+  .upload-bar { height: 100%; background: var(--blue); border-radius: 20px; width: 0%; transition: width 0.2s; }
+  .file-list { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .file-item { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 7px 10px; font-size: 12px; }
+  .file-item a { color: var(--blue); text-decoration: none; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-item a:hover { text-decoration: underline; }
+  .file-del { background: none; border: none; color: var(--red); cursor: pointer; font-size: 15px; padding: 0; flex-shrink: 0; }
+
+  /* HISTÓRICO */
+  .hist-list { display: flex; flex-direction: column; gap: 8px; max-height: 420px; overflow-y: auto; }
+  .hist-item { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; font-size: 12px; }
+  .hist-who { font-weight: 600; }
+  .hist-when { color: var(--muted); margin-left: 6px; }
+  .hist-action { margin-top: 4px; color: var(--muted); white-space: pre-wrap; line-height: 1.5; }
+  .hist-empty { text-align: center; padding: 2rem; color: var(--muted); font-size: 13px; }
+
+  /* CANCELAMENTO */
+  .cancel-warning { background: var(--red-light); border: 1px solid #f7c1c1; border-radius: var(--radius); padding: 10px 12px; font-size: 13px; color: var(--red); margin-bottom: 1rem; }
+
+  /* USERS */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
   .section-title { font-size: 15px; font-weight: 600; }
-
-  /* SPINNER */
-  .spinner { width: 16px; height: 16px; border: 2px solid #fff4; border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; display: inline-block; margin-right: 6px; vertical-align: middle; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* TOAST */
-  #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #222; color: #fff; padding: 10px 16px; border-radius: var(--radius); font-size: 13px; z-index: 999; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
-  #toast.show { opacity: 1; }
-
-  /* ADMIN TAB */
-  .tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
-  .tab { padding: 10px 16px; font-size: 13px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; border-left: none; border-right: none; border-top: none; }
-  .tab.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 600; }
-
-  .users-table { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-top: 1rem; }
+  .users-table { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
   .users-table table { table-layout: auto; }
   .users-table th, .users-table td { white-space: nowrap; }
 
-  @media (max-width: 600px) {
+  .spinner { width: 16px; height: 16px; border: 2px solid #fff4; border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; display: inline-block; margin-right: 6px; vertical-align: middle; }
+  .spinner-dark { border-color: #0002; border-top-color: var(--blue); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #222; color: #fff; padding: 10px 16px; border-radius: var(--radius); font-size: 13px; z-index: 999; opacity: 0; transition: opacity 0.2s; pointer-events: none; max-width: 340px; }
+  #toast.show { opacity: 1; }
+
+  .tabs { display: flex; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .tab { padding: 10px 16px; font-size: 13px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; border-left: none; border-right: none; border-top: none; }
+  .tab.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 600; }
+
+  @media (max-width: 700px) {
     .main { padding: 1rem; }
     .form-grid { grid-template-columns: 1fr; }
     .fg.full { grid-column: 1; }
-    th:nth-child(4), td:nth-child(4),
-    th:nth-child(5), td:nth-child(5) { display: none; }
+    th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5) { display: none; }
   }
 </style>
 </head>
@@ -176,7 +214,7 @@
   <div class="main">
     <div class="tabs">
       <button class="tab active" id="tab-produtos" onclick="showTab('produtos')">Produtos</button>
-      <button class="tab" id="tab-admin" onclick="showTab('admin')" id="admin-tab-btn" style="display:none">Usuários</button>
+      <button class="tab" id="tab-admin" style="display:none" onclick="showTab('admin')">Usuários</button>
     </div>
 
     <!-- PRODUTOS -->
@@ -202,14 +240,22 @@
           <option value="CANCELAR">CANCELAR</option>
           <option value="Cancelado">Cancelado</option>
         </select>
+        <button class="btn btn-sm btn-green" onclick="exportExcel()">⬇ Exportar Excel</button>
         <button class="btn btn-primary btn-sm" onclick="openModal()">+ Novo produto</button>
       </div>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Status</th><th>GTIN</th><th>Descrição</th>
-              <th>Marca</th><th>NCM</th><th>Tab. Nutricional</th><th>Ações</th>
+              <th>Status</th>
+              <th>GTIN</th>
+              <th>Descrição</th>
+              <th>Marca</th>
+              <th>NCM</th>
+              <th>Tab. Nutricional</th>
+              <th title="Observação" style="text-align:center">💬</th>
+              <th title="Arquivo Tab. Nutricional" style="text-align:center">📎</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody id="tbody"></tbody>
@@ -224,18 +270,16 @@
     <div id="panel-admin" style="display:none">
       <div class="section-header">
         <div class="section-title">Usuários cadastrados</div>
-        <button class="btn btn-sm btn-primary" onclick="openUserModal()">+ Convidar usuário</button>
+        <button class="btn btn-sm btn-primary" onclick="openUserModal()">+ Novo usuário</button>
       </div>
       <div class="users-table">
         <table>
           <thead>
-            <tr>
-              <th>Nome</th><th>E-mail</th><th>Papel</th><th>Cadastrado em</th><th>Ações</th>
-            </tr>
+            <tr><th>Nome</th><th>E-mail</th><th>Papel</th><th>Cadastrado em</th><th>Alterar papel</th></tr>
           </thead>
           <tbody id="users-tbody"></tbody>
         </table>
-        <div class="loading" id="users-loading">Carregando...</div>
+        <div class="loading" id="users-loading" style="display:none">Carregando...</div>
       </div>
     </div>
   </div>
@@ -270,7 +314,7 @@
           <option value="Cancelado">Cancelado</option>
         </select>
       </div>
-      <div class="fg full"><label>OBS</label><input id="f-obs" type="text" placeholder="Observação (opcional)" /></div>
+      <div class="fg full"><label>OBS</label><textarea id="f-obs" placeholder="Observação (opcional)"></textarea></div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-produto')">Cancelar</button>
@@ -279,38 +323,99 @@
   </div>
 </div>
 
+<!-- MODAL UPLOAD -->
+<div class="modal-overlay" id="modal-upload">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h2 id="upload-title">Tabela Nutricional</h2>
+      <button class="modal-close" onclick="closeModal('modal-upload')">&times;</button>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Faça upload do PDF ou imagem enviados pela nutricionista. Toda a equipe poderá visualizar.</p>
+    <div class="upload-area" id="upload-area"
+      onclick="document.getElementById('file-input').click()"
+      ondragover="event.preventDefault();this.classList.add('drag')"
+      ondragleave="this.classList.remove('drag')"
+      ondrop="handleDrop(event)">
+      <div class="u-icon">📤</div>
+      <p>Clique para selecionar ou arraste o arquivo aqui</p>
+      <p style="font-size:11px;margin-top:4px;color:var(--subtle)">PDF, JPG, PNG — máx. 10 MB</p>
+    </div>
+    <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleFileSelect(event)" />
+    <div class="upload-progress" id="upload-progress"><div class="upload-bar" id="upload-bar"></div></div>
+    <div class="file-list" id="file-list"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-upload')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL HISTÓRICO -->
+<div class="modal-overlay" id="modal-hist">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <h2 id="hist-title">Histórico de alterações</h2>
+      <button class="modal-close" onclick="closeModal('modal-hist')">&times;</button>
+    </div>
+    <div class="hist-list" id="hist-list">
+      <div class="hist-empty">Carregando...</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-hist')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CANCELAMENTO -->
+<div class="modal-overlay" id="modal-cancel">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <h2>Cancelar produto</h2>
+      <button class="modal-close" onclick="closeModal('modal-cancel')">&times;</button>
+    </div>
+    <div class="cancel-warning">⚠️ Esta ação marcará o produto como <strong>Cancelado</strong>. O motivo ficará salvo no histórico.</div>
+    <div class="fg">
+      <label>Motivo do cancelamento</label>
+      <textarea id="cancel-motivo" placeholder="Descreva o motivo..." style="min-height:80px"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-cancel')">Voltar</button>
+      <button class="btn btn-sm" style="background:var(--red);color:#fff;border-color:var(--red);width:auto" onclick="confirmCancel()">Confirmar cancelamento</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL USUÁRIO -->
 <div class="modal-overlay" id="modal-user">
   <div class="modal" style="max-width:400px">
     <div class="modal-header">
-      <h2>Convidar usuário</h2>
+      <h2>Novo usuário</h2>
       <button class="modal-close" onclick="closeModal('modal-user')">&times;</button>
     </div>
-    <div class="fg" style="margin-bottom:12px"><label>E-mail</label><input id="u-email" type="email" placeholder="usuario@email.com" /></div>
     <div class="fg" style="margin-bottom:12px"><label>Nome</label><input id="u-name" type="text" placeholder="Nome do usuário" /></div>
-    <div class="fg"><label>Papel</label>
+    <div class="fg" style="margin-bottom:12px"><label>E-mail</label><input id="u-email" type="email" placeholder="usuario@email.com" /></div>
+    <div class="fg" style="margin-bottom:12px"><label>Papel</label>
       <select id="u-role"><option value="editor">Editor</option><option value="admin">Admin</option></select>
     </div>
-    <div id="user-invite-info" style="margin-top:12px;font-size:12px;color:var(--muted);background:var(--bg);padding:10px;border-radius:var(--radius);">
-      O usuário receberá um e-mail para criar a própria senha via Firebase.
+    <div style="font-size:12px;color:var(--muted);background:var(--bg);padding:10px;border-radius:var(--radius);">
+      Uma senha temporária será gerada. Copie e envie ao usuário para o primeiro acesso.
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-user')">Cancelar</button>
-      <button class="btn btn-primary" onclick="inviteUser()">Cadastrar</button>
+      <button class="btn btn-primary" onclick="inviteUser()" id="btn-invite">Criar usuário</button>
     </div>
   </div>
 </div>
 
 <div id="toast"></div>
 
-<!-- FIREBASE SDK -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc, setDoc, serverTimestamp, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, setDoc, serverTimestamp, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
 
 // =====================================================
-// CONFIGURAÇÃO FIREBASE — SUBSTITUA PELOS SEUS DADOS
+// CONFIGURAÇÃO FIREBASE
 // =====================================================
 const firebaseConfig = {
   apiKey: "AIzaSyBiZJisZt8DLETH5cTVLJ5a6HQtqmRcozM",
@@ -325,10 +430,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 let produtos = [];
 let usuarios = [];
 let editingId = null;
+let uploadingForId = null;
+let cancelingId = null;
 let currentUser = null;
 let currentRole = 'editor';
 let page = 1;
@@ -371,14 +479,11 @@ onAuthStateChanged(auth, async (user) => {
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'block';
     document.getElementById('user-email-display').textContent = user.displayName || user.email;
-    // buscar role
     try {
       const snap = await getDocs(collection(db, 'usuarios'));
-      snap.forEach(d => { if(d.id === user.uid) currentRole = d.data().role || 'editor'; });
+      snap.forEach(d => { if (d.id === user.uid) currentRole = d.data().role || 'editor'; });
     } catch(e) {}
-    if (currentRole === 'admin') {
-      document.getElementById('tab-admin').style.display = '';
-    }
+    if (currentRole === 'admin') document.getElementById('tab-admin').style.display = '';
     await loadProdutos();
   } else {
     currentUser = null;
@@ -391,10 +496,10 @@ onAuthStateChanged(auth, async (user) => {
 
 // ---- TABS ----
 window.showTab = (t) => {
-  document.getElementById('panel-produtos').style.display = t==='produtos' ? '' : 'none';
-  document.getElementById('panel-admin').style.display = t==='admin' ? '' : 'none';
-  document.getElementById('tab-produtos').className = 'tab' + (t==='produtos'?' active':'');
-  document.getElementById('tab-admin').className = 'tab' + (t==='admin'?' active':'');
+  document.getElementById('panel-produtos').style.display = t === 'produtos' ? '' : 'none';
+  document.getElementById('panel-admin').style.display = t === 'admin' ? '' : 'none';
+  document.getElementById('tab-produtos').className = 'tab' + (t === 'produtos' ? ' active' : '');
+  document.getElementById('tab-admin').className = 'tab' + (t === 'admin' ? ' active' : '');
   if (t === 'admin') loadUsers();
 };
 
@@ -420,7 +525,7 @@ function getFiltered() {
   const mk = document.getElementById('filterMarca').value;
   const tb = document.getElementById('filterTab').value;
   return produtos.filter(p => {
-    if (q && !String(p.gtin||'').includes(q) && !(p.desc||'').toLowerCase().includes(q)) return false;
+    if (q && !String(p.gtin || '').includes(q) && !(p.desc || '').toLowerCase().includes(q)) return false;
     if (st && p.status !== st) return false;
     if (mk && p.marca !== mk) return false;
     if (tb && p.tab !== tb) return false;
@@ -429,9 +534,9 @@ function getFiltered() {
 }
 
 function renderStats() {
-  const ativo = produtos.filter(p=>p.status==='Ativo').length;
-  const cancelado = produtos.filter(p=>p.status==='Cancelado').length;
-  const analise = produtos.filter(p=>(p.tab||'').toLowerCase()==='em analise').length;
+  const ativo = produtos.filter(p => p.status === 'Ativo').length;
+  const cancelado = produtos.filter(p => p.status === 'Cancelado').length;
+  const analise = produtos.filter(p => (p.tab || '').toLowerCase() === 'em analise').length;
   document.getElementById('stats').innerHTML = `
     <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value blue">${produtos.length}</div></div>
     <div class="stat-card"><div class="stat-label">Ativos</div><div class="stat-value green">${ativo}</div></div>
@@ -441,74 +546,90 @@ function renderStats() {
 }
 
 function tabBadge(val) {
-  const v = (val||'').toLowerCase();
-  if (v==='ok') return `<span class="badge badge-ok">${val}</span>`;
-  if (v==='em analise') return `<span class="badge badge-analise">${val}</span>`;
-  if (v==='cancelar'||v==='cancelado') return `<span class="badge badge-cancelar">${val}</span>`;
-  return `<span style="color:var(--muted)">${val||''}</span>`;
+  const v = (val || '').toLowerCase();
+  if (v === 'ok') return `<span class="badge badge-ok">${val}</span>`;
+  if (v === 'em analise') return `<span class="badge badge-analise">${val}</span>`;
+  if (v === 'cancelar' || v === 'cancelado') return `<span class="badge badge-cancelar">${val}</span>`;
+  return `<span style="color:var(--muted)">${val || ''}</span>`;
+}
+
+function escapeHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 window.renderTable = () => {
   const filtered = getFiltered();
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   if (page > totalPages) page = totalPages;
-  const slice = filtered.slice((page-1)*PER_PAGE, page*PER_PAGE);
-  const tbody = document.getElementById('tbody');
-  document.getElementById('empty-msg').style.display = slice.length===0 ? 'block' : 'none';
-  tbody.innerHTML = slice.map(p => `
-    <tr>
-      <td><span class="badge ${p.status==='Ativo'?'badge-ativo':'badge-cancelado'}">${p.status||''}</span></td>
-      <td style="font-family:monospace;font-size:11px">${p.gtin||''}</td>
-      <td title="${p.desc||''}">${p.desc||''}</td>
-      <td>${p.marca||''}</td>
-      <td style="font-family:monospace;font-size:11px">${p.ncm||''}</td>
+  const slice = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+  document.getElementById('empty-msg').style.display = slice.length === 0 ? 'block' : 'none';
+
+  document.getElementById('tbody').innerHTML = slice.map(p => {
+    const obsHtml = p.obs
+      ? `<span class="tip-wrap">💬<span class="tip-box">${escapeHtml(p.obs)}</span></span>`
+      : `<span style="color:#ccc;font-size:14px">💬</span>`;
+
+    const arqs = p.arquivos || [];
+    const arquivoHtml = arqs.length > 0
+      ? `<span class="tip-wrap" style="cursor:pointer" onclick="openUpload('${p.id}')">📎<span class="tip-box">${arqs.length} arquivo(s) — clique para gerenciar</span></span>`
+      : `<span class="tip-wrap" style="cursor:pointer;color:#ccc" onclick="openUpload('${p.id}')">📎<span class="tip-box">Sem arquivo — clique para anexar</span></span>`;
+
+    return `<tr>
+      <td><span class="badge ${p.status === 'Ativo' ? 'badge-ativo' : 'badge-cancelado'}">${p.status || ''}</span></td>
+      <td style="font-family:monospace;font-size:11px">${p.gtin || ''}</td>
+      <td title="${escapeHtml(p.desc)}">${p.desc || ''}</td>
+      <td>${p.marca || ''}</td>
+      <td style="font-family:monospace;font-size:11px">${p.ncm || ''}</td>
       <td>${tabBadge(p.tab)}</td>
+      <td style="text-align:center;overflow:visible">${obsHtml}</td>
+      <td style="text-align:center;overflow:visible">${arquivoHtml}</td>
       <td>
         <div class="action-btns">
           <button class="act-btn act-edit" onclick="editProduto('${p.id}')">Editar</button>
-          ${p.status==='Ativo' ? `<button class="act-btn act-cancel" onclick="cancelProduto('${p.id}')">Cancelar</button>` : ''}
+          <button class="act-btn act-hist" onclick="openHist('${p.id}')">Histórico</button>
+          ${p.status === 'Ativo' ? `<button class="act-btn act-cancel" onclick="openCancelModal('${p.id}')">Cancelar</button>` : ''}
         </div>
       </td>
-    </tr>
-  `).join('');
+    </tr>`;
+  }).join('');
 
   let pag = `<span>${filtered.length} produto(s)</span><div class="page-btns">`;
-  pag += `<button onclick="goPage(${page-1})" ${page===1?'disabled':''}>&#8249;</button>`;
-  for (let i=1;i<=totalPages;i++) {
-    if (totalPages<=7||i===1||i===totalPages||Math.abs(i-page)<=1)
-      pag += `<button class="${i===page?'active':''}" onclick="goPage(${i})">${i}</button>`;
-    else if (Math.abs(i-page)===2)
+  pag += `<button onclick="goPage(${page - 1})" ${page === 1 ? 'disabled' : ''}>&#8249;</button>`;
+  for (let i = 1; i <= totalPages; i++) {
+    if (totalPages <= 7 || i === 1 || i === totalPages || Math.abs(i - page) <= 1)
+      pag += `<button class="${i === page ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
+    else if (Math.abs(i - page) === 2)
       pag += `<button disabled>…</button>`;
   }
-  pag += `<button onclick="goPage(${page+1})" ${page===totalPages?'disabled':''}>&#8250;</button></div>`;
+  pag += `<button onclick="goPage(${page + 1})" ${page === totalPages ? 'disabled' : ''}>&#8250;</button></div>`;
   document.getElementById('pagination').innerHTML = pag;
 };
 
 window.goPage = (p2) => { page = p2; renderTable(); };
 
+// ---- MODAL PRODUTO ----
 window.openModal = (id) => {
   editingId = id || null;
   document.getElementById('modal-title').textContent = id ? 'Editar produto' : 'Novo produto';
   if (id) {
-    const p = produtos.find(x=>x.id===id);
-    document.getElementById('f-gtin').value = p.gtin||'';
-    document.getElementById('f-status').value = p.status||'Ativo';
-    document.getElementById('f-desc').value = p.desc||'';
-    document.getElementById('f-marca').value = p.marca||'Panimix';
-    document.getElementById('f-ncm').value = p.ncm||'';
-    document.getElementById('f-tab').value = p.tab||'ok';
-    document.getElementById('f-obs').value = p.obs||'';
+    const p = produtos.find(x => x.id === id);
+    document.getElementById('f-gtin').value = p.gtin || '';
+    document.getElementById('f-status').value = p.status || 'Ativo';
+    document.getElementById('f-desc').value = p.desc || '';
+    document.getElementById('f-marca').value = p.marca || 'Panimix';
+    document.getElementById('f-ncm').value = p.ncm || '';
+    document.getElementById('f-tab').value = p.tab || 'ok';
+    document.getElementById('f-obs').value = p.obs || '';
   } else {
-    ['f-gtin','f-desc','f-ncm','f-obs'].forEach(id => document.getElementById(id).value='');
-    document.getElementById('f-status').value='Ativo';
-    document.getElementById('f-marca').value='Panimix';
-    document.getElementById('f-tab').value='ok';
+    ['f-gtin','f-desc','f-ncm','f-obs'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('f-status').value = 'Ativo';
+    document.getElementById('f-marca').value = 'Panimix';
+    document.getElementById('f-tab').value = 'ok';
   }
   document.getElementById('modal-produto').classList.add('open');
 };
 
 window.editProduto = (id) => openModal(id);
-
 window.closeModal = (id) => document.getElementById(id).classList.remove('open');
 
 window.saveProduto = async () => {
@@ -529,11 +650,14 @@ window.saveProduto = async () => {
   btn.innerHTML = '<span class="spinner"></span>Salvando...'; btn.disabled = true;
   try {
     if (editingId) {
+      const antes = produtos.find(x => x.id === editingId);
       await updateDoc(doc(db, 'produtos', editingId), obj);
+      await addHistorico(editingId, 'Edição', gerarDiff(antes, obj));
     } else {
       obj.criadoEm = serverTimestamp();
       obj.criadoPor = currentUser?.email || '';
-      await addDoc(collection(db, 'produtos'), obj);
+      const docRef = await addDoc(collection(db, 'produtos'), obj);
+      await addHistorico(docRef.id, 'Criação', 'Produto cadastrado.');
     }
     closeModal('modal-produto');
     toast('Salvo com sucesso!');
@@ -544,13 +668,165 @@ window.saveProduto = async () => {
   btn.textContent = 'Salvar'; btn.disabled = false;
 };
 
-window.cancelProduto = async (id) => {
-  if (!confirm('Cancelar este produto?')) return;
+function gerarDiff(antes, depois) {
+  const campos = { gtin:'GTIN', desc:'Descrição', status:'Status', marca:'Marca', ncm:'NCM', tab:'Tab. Nutricional', obs:'OBS' };
+  const linhas = [];
+  for (const [k, label] of Object.entries(campos)) {
+    if ((antes[k] || '') !== (depois[k] || '')) linhas.push(`${label}: "${antes[k] || ''}" → "${depois[k] || ''}"`);
+  }
+  return linhas.length ? linhas.join('\n') : 'Sem alterações de campos.';
+}
+
+// ---- CANCELAMENTO COM MOTIVO ----
+window.openCancelModal = (id) => {
+  cancelingId = id;
+  document.getElementById('cancel-motivo').value = '';
+  document.getElementById('modal-cancel').classList.add('open');
+};
+
+window.confirmCancel = async () => {
+  const motivo = document.getElementById('cancel-motivo').value.trim();
+  if (!motivo) { toast('Informe o motivo do cancelamento.'); return; }
   try {
-    await updateDoc(doc(db, 'produtos', id), { status: 'Cancelado', tab: 'Cancelado', atualizadoEm: serverTimestamp(), atualizadoPor: currentUser?.email||'' });
+    await updateDoc(doc(db, 'produtos', cancelingId), {
+      status: 'Cancelado', tab: 'Cancelado',
+      atualizadoEm: serverTimestamp(), atualizadoPor: currentUser?.email || ''
+    });
+    await addHistorico(cancelingId, 'Cancelamento', `Motivo: ${motivo}`);
+    closeModal('modal-cancel');
     toast('Produto cancelado.');
     await loadProdutos();
   } catch(e) { toast('Erro: ' + e.message); }
+};
+
+// ---- HISTÓRICO ----
+async function addHistorico(produtoId, acao, detalhe) {
+  try {
+    await addDoc(collection(db, 'produtos', produtoId, 'historico'), {
+      acao, detalhe,
+      por: currentUser?.email || '',
+      nome: currentUser?.displayName || currentUser?.email || '',
+      em: serverTimestamp(),
+    });
+  } catch(e) {}
+}
+
+window.openHist = async (id) => {
+  const p = produtos.find(x => x.id === id);
+  document.getElementById('hist-title').textContent = `Histórico — ${p?.desc || id}`;
+  document.getElementById('hist-list').innerHTML = '<div class="hist-empty"><span class="spinner spinner-dark"></span> Carregando...</div>';
+  document.getElementById('modal-hist').classList.add('open');
+  try {
+    const snap = await getDocs(query(collection(db, 'produtos', id, 'historico'), orderBy('em', 'desc')));
+    const items = [];
+    snap.forEach(d => items.push(d.data()));
+    if (!items.length) {
+      document.getElementById('hist-list').innerHTML = '<div class="hist-empty">Nenhum registro ainda.</div>';
+    } else {
+      document.getElementById('hist-list').innerHTML = items.map(h => {
+        const dt = h.em?.toDate ? h.em.toDate().toLocaleString('pt-BR') : '—';
+        return `<div class="hist-item">
+          <div><span class="hist-who">${escapeHtml(h.nome || h.por || '?')}</span><span class="hist-when">${dt}</span></div>
+          <div class="hist-action"><strong>${escapeHtml(h.acao)}</strong>${h.detalhe ? '\n' + escapeHtml(h.detalhe) : ''}</div>
+        </div>`;
+      }).join('');
+    }
+  } catch(e) {
+    document.getElementById('hist-list').innerHTML = '<div class="hist-empty">Erro ao carregar histórico.</div>';
+  }
+};
+
+// ---- UPLOAD TABELA NUTRICIONAL ----
+window.openUpload = async (id) => {
+  uploadingForId = id;
+  const p = produtos.find(x => x.id === id);
+  document.getElementById('upload-title').textContent = `Tab. Nutricional — ${p?.desc || ''}`;
+  document.getElementById('upload-progress').style.display = 'none';
+  document.getElementById('upload-bar').style.width = '0%';
+  document.getElementById('modal-upload').classList.add('open');
+  renderFileList(p?.arquivos || []);
+};
+
+function renderFileList(arquivos) {
+  const el = document.getElementById('file-list');
+  if (!arquivos.length) { el.innerHTML = '<p style="font-size:12px;color:var(--muted);margin-top:8px">Nenhum arquivo anexado ainda.</p>'; return; }
+  el.innerHTML = arquivos.map((f, i) => `
+    <div class="file-item">
+      <a href="${escapeHtml(f.url)}" target="_blank" rel="noopener">📄 ${escapeHtml(f.nome)}</a>
+      <button class="file-del" onclick="deleteFile(${i})" title="Remover arquivo">✕</button>
+    </div>
+  `).join('');
+}
+
+window.handleDrop = (e) => {
+  e.preventDefault();
+  document.getElementById('upload-area').classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file) uploadFile(file);
+};
+
+window.handleFileSelect = (e) => {
+  const file = e.target.files[0];
+  if (file) uploadFile(file);
+  e.target.value = '';
+};
+
+async function uploadFile(file) {
+  if (file.size > 10 * 1024 * 1024) { toast('Arquivo muito grande. Máx. 10 MB.'); return; }
+  if (!['application/pdf','image/jpeg','image/png'].includes(file.type)) { toast('Apenas PDF, JPG ou PNG.'); return; }
+
+  const progWrap = document.getElementById('upload-progress');
+  const bar = document.getElementById('upload-bar');
+  progWrap.style.display = 'block'; bar.style.width = '0%';
+
+  const path = `tabelas/${uploadingForId}/${Date.now()}_${file.name}`;
+  const storRef = ref(storage, path);
+  const task = uploadBytesResumable(storRef, file);
+
+  task.on('state_changed',
+    snap => { bar.style.width = Math.round(snap.bytesTransferred / snap.totalBytes * 100) + '%'; },
+    err => { toast('Erro no upload: ' + err.message); progWrap.style.display = 'none'; },
+    async () => {
+      const url = await getDownloadURL(task.snapshot.ref);
+      const p = produtos.find(x => x.id === uploadingForId);
+      const arquivos = [...(p?.arquivos || []), { nome: file.name, url, path }];
+      await updateDoc(doc(db, 'produtos', uploadingForId), { arquivos, atualizadoEm: serverTimestamp(), atualizadoPor: currentUser?.email || '' });
+      await addHistorico(uploadingForId, 'Upload de arquivo', `Arquivo: ${file.name}`);
+      toast('✅ Arquivo enviado com sucesso!');
+      progWrap.style.display = 'none';
+      await loadProdutos();
+      renderFileList(produtos.find(x => x.id === uploadingForId)?.arquivos || []);
+    }
+  );
+}
+
+window.deleteFile = async (idx) => {
+  if (!confirm('Remover este arquivo?')) return;
+  const p = produtos.find(x => x.id === uploadingForId);
+  const arquivos = [...(p?.arquivos || [])];
+  const [removed] = arquivos.splice(idx, 1);
+  try {
+    if (removed.path) await deleteObject(ref(storage, removed.path)).catch(() => {});
+    await updateDoc(doc(db, 'produtos', uploadingForId), { arquivos, atualizadoEm: serverTimestamp(), atualizadoPor: currentUser?.email || '' });
+    await addHistorico(uploadingForId, 'Remoção de arquivo', `Arquivo: ${removed.nome}`);
+    toast('Arquivo removido.');
+    await loadProdutos();
+    renderFileList(arquivos);
+  } catch(e) { toast('Erro ao remover: ' + e.message); }
+};
+
+// ---- EXPORTAR EXCEL (CSV compatível) ----
+window.exportExcel = () => {
+  const filtered = getFiltered();
+  const rows = [['Status','GTIN','Descrição','Marca','NCM','Tab. Nutricional','OBS']];
+  filtered.forEach(p => rows.push([p.status||'', p.gtin||'', p.desc||'', p.marca||'', p.ncm||'', p.tab||'', p.obs||'']));
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(';')).join('\r\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `produtos_panimix_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  toast('Exportado! Abra o arquivo no Excel.');
 };
 
 // ---- USERS ----
@@ -568,14 +844,14 @@ async function loadUsers() {
 function renderUsers() {
   document.getElementById('users-tbody').innerHTML = usuarios.map(u => `
     <tr>
-      <td>${u.nome||'-'}</td>
-      <td>${u.email||'-'}</td>
-      <td><span class="badge ${u.role==='admin'?'badge-ativo':'badge-analise'}">${u.role||'editor'}</span></td>
+      <td>${escapeHtml(u.nome || '-')}</td>
+      <td>${escapeHtml(u.email || '-')}</td>
+      <td><span class="badge ${u.role === 'admin' ? 'badge-ativo' : 'badge-analise'}">${u.role || 'editor'}</span></td>
       <td style="color:var(--muted);font-size:12px">${u.criadoEm?.toDate ? u.criadoEm.toDate().toLocaleDateString('pt-BR') : '-'}</td>
       <td>
         <select onchange="changeRole('${u.id}', this.value)" style="font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:6px;background:var(--surface)">
-          <option ${u.role==='editor'?'selected':''}>editor</option>
-          <option ${u.role==='admin'?'selected':''}>admin</option>
+          <option ${u.role === 'editor' ? 'selected' : ''} value="editor">editor</option>
+          <option ${u.role === 'admin' ? 'selected' : ''} value="admin">admin</option>
         </select>
       </td>
     </tr>
@@ -590,7 +866,7 @@ window.changeRole = async (uid, role) => {
 };
 
 window.openUserModal = () => {
-  ['u-email','u-name'].forEach(id => document.getElementById(id).value='');
+  ['u-email','u-name'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('modal-user').classList.add('open');
 };
 
@@ -599,22 +875,25 @@ window.inviteUser = async () => {
   const name = document.getElementById('u-name').value.trim();
   const role = document.getElementById('u-role').value;
   if (!email || !name) { toast('Preencha e-mail e nome.'); return; }
+  const btn = document.getElementById('btn-invite');
+  btn.innerHTML = '<span class="spinner"></span>Criando...'; btn.disabled = true;
   try {
     const tempPass = Math.random().toString(36).slice(-8) + 'A1!';
     const cred = await createUserWithEmailAndPassword(auth, email, tempPass);
     await updateProfile(cred.user, { displayName: name });
     await setDoc(doc(db, 'usuarios', cred.user.uid), { nome: name, email, role, criadoEm: serverTimestamp() });
     closeModal('modal-user');
-    toast(`Usuário criado! Senha temporária: ${tempPass} (anote e envie para o usuário)`);
+    toast(`✅ Usuário criado! Senha temporária: ${tempPass}`);
     await loadUsers();
   } catch(e) { toast('Erro: ' + traduzirErro(e.code)); }
+  btn.textContent = 'Criar usuário'; btn.disabled = false;
 };
 
 // ---- TOAST ----
 window.toast = (msg) => {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = 'show';
-  setTimeout(() => { t.className = ''; }, 3500);
+  setTimeout(() => { t.className = ''; }, 4500);
 };
 
 // fechar modal clicando fora
