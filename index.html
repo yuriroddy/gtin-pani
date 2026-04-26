@@ -71,6 +71,7 @@
   tr:last-child td { border-bottom: none; }
   tbody tr:hover td { background: #fafafa; }
 
+  /* Colunas sem a coluna de clipe */
   th:nth-child(1),td:nth-child(1) { width: 75px; }
   th:nth-child(2),td:nth-child(2) { width: 115px; }
   th:nth-child(3),td:nth-child(3) { width: auto; }
@@ -123,6 +124,7 @@
   .fg input:focus, .fg select:focus, .fg textarea:focus { outline: 2px solid var(--blue); outline-offset: -1px; }
   .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); }
 
+  /* UPLOAD INLINE */
   .upload-section { grid-column: 1 / -1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
   .upload-section-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; display: block; }
   .upload-inline-btns { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
@@ -138,8 +140,8 @@
   .upload-status-msg.uploading { background: var(--amber-light); color: var(--amber); }
   .upload-status-msg.success { background: var(--teal-light); color: var(--teal); }
   .upload-status-msg.pending { background: var(--amber-light); color: var(--amber); }
-  .upload-status-msg.error { background: var(--red-light); color: var(--red); }
 
+  /* VISUALIZAR ARQUIVOS */
   .view-files-list { display: flex; flex-direction: column; gap: 8px; max-height: 420px; overflow-y: auto; }
   .view-file-item { display: flex; align-items: center; gap: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; }
   .view-file-item .file-icon { font-size: 22px; flex-shrink: 0; }
@@ -311,7 +313,7 @@
         <div class="upload-progress-inline" id="upload-progress-inline">
           <div class="upload-bar-inline" id="upload-bar-inline"></div>
         </div>
-        <div id="upload-status-msg-wrap"></div>
+        <div id="upload-status-msg"></div>
         <div class="inline-file-list" id="inline-file-list"></div>
         <p class="upload-hint">PDF, JPG ou PNG — máx. 10 MB por arquivo.</p>
       </div>
@@ -393,7 +395,7 @@
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, collection, doc, getDoc, getDocs, addDoc, updateDoc, setDoc, serverTimestamp, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, setDoc, serverTimestamp, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
 
 const firebaseConfig = {
@@ -415,14 +417,7 @@ let editingId = null, cancelingId = null;
 let currentUser = null, currentRole = 'editor';
 let page = 1;
 const PER_PAGE = 20;
-let pendingFiles = [];
-
-// ======================== HELPERS ========================
-function setUploadStatus(msg, type) {
-  const wrap = document.getElementById('upload-status-msg-wrap');
-  if (!msg) { wrap.innerHTML = ''; return; }
-  wrap.innerHTML = `<div class="upload-status-msg ${type}">${msg}</div>`;
-}
+let pendingFiles = []; // arquivos aguardando produto novo ser salvo
 
 // ======================== AUTH ========================
 window.doLogin = async () => {
@@ -437,27 +432,16 @@ window.doLogin = async () => {
 };
 window.doLogout = () => signOut(auth);
 function traduzirErro(code) {
-  const m = {
-    'auth/invalid-email':'E-mail inválido.',
-    'auth/user-not-found':'Usuário não encontrado.',
-    'auth/wrong-password':'Senha incorreta.',
-    'auth/email-already-in-use':'E-mail já cadastrado.',
-    'auth/weak-password':'Senha deve ter no mínimo 6 caracteres.',
-    'auth/invalid-credential':'E-mail ou senha incorretos.'
-  };
+  const m = {'auth/invalid-email':'E-mail inválido.','auth/user-not-found':'Usuário não encontrado.','auth/wrong-password':'Senha incorreta.','auth/email-already-in-use':'E-mail já cadastrado.','auth/weak-password':'Senha deve ter no mínimo 6 caracteres.','auth/invalid-credential':'E-mail ou senha incorretos.'};
   return m[code] || 'Erro: ' + code;
 }
-
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'block';
     document.getElementById('user-email-display').textContent = user.displayName || user.email;
-    try {
-      const snap = await getDocs(collection(db, 'usuarios'));
-      snap.forEach(d => { if (d.id === user.uid) currentRole = d.data().role || 'editor'; });
-    } catch(e) {}
+    try { const snap = await getDocs(collection(db,'usuarios')); snap.forEach(d => { if(d.id===user.uid) currentRole = d.data().role||'editor'; }); } catch(e){}
     if (currentRole === 'admin') document.getElementById('tab-admin').style.display = '';
     await loadProdutos();
   } else {
@@ -471,11 +455,11 @@ onAuthStateChanged(auth, async (user) => {
 
 // ======================== TABS ========================
 window.showTab = (t) => {
-  document.getElementById('panel-produtos').style.display = t === 'produtos' ? '' : 'none';
-  document.getElementById('panel-admin').style.display = t === 'admin' ? '' : 'none';
-  document.getElementById('tab-produtos').className = 'tab' + (t === 'produtos' ? ' active' : '');
-  document.getElementById('tab-admin').className = 'tab' + (t === 'admin' ? ' active' : '');
-  if (t === 'admin') loadUsers();
+  document.getElementById('panel-produtos').style.display = t==='produtos'?'':'none';
+  document.getElementById('panel-admin').style.display = t==='admin'?'':'none';
+  document.getElementById('tab-produtos').className = 'tab'+(t==='produtos'?' active':'');
+  document.getElementById('tab-admin').className = 'tab'+(t==='admin'?' active':'');
+  if (t==='admin') loadUsers();
 };
 
 // ======================== PRODUTOS ========================
@@ -483,12 +467,10 @@ async function loadProdutos() {
   document.getElementById('loading-msg').style.display = 'block';
   document.getElementById('empty-msg').style.display = 'none';
   try {
-    const snap = await getDocs(query(collection(db, 'produtos'), orderBy('criadoEm', 'desc')));
-    produtos = [];
-    snap.forEach(d => produtos.push({ id: d.id, ...d.data() }));
-    renderStats();
-    renderTable();
-  } catch(e) { toast('Erro ao carregar: ' + e.message); }
+    const snap = await getDocs(query(collection(db,'produtos'), orderBy('criadoEm','desc')));
+    produtos = []; snap.forEach(d => produtos.push({id:d.id,...d.data()}));
+    renderStats(); renderTable();
+  } catch(e) { toast('Erro ao carregar: '+e.message); }
   document.getElementById('loading-msg').style.display = 'none';
 }
 
@@ -498,18 +480,18 @@ function getFiltered() {
   const mk = document.getElementById('filterMarca').value;
   const tb = document.getElementById('filterTab').value;
   return produtos.filter(p => {
-    if (q && !String(p.gtin || '').includes(q) && !(p.desc || '').toLowerCase().includes(q)) return false;
-    if (st && p.status !== st) return false;
-    if (mk && p.marca !== mk) return false;
-    if (tb && p.tab !== tb) return false;
+    if (q && !String(p.gtin||'').includes(q) && !(p.desc||'').toLowerCase().includes(q)) return false;
+    if (st && p.status!==st) return false;
+    if (mk && p.marca!==mk) return false;
+    if (tb && p.tab!==tb) return false;
     return true;
   });
 }
 
 function renderStats() {
-  const ativo = produtos.filter(p => p.status === 'Ativo').length;
-  const cancelado = produtos.filter(p => p.status === 'Cancelado').length;
-  const analise = produtos.filter(p => p.tab === 'Em análise').length;
+  const ativo = produtos.filter(p=>p.status==='Ativo').length;
+  const cancelado = produtos.filter(p=>p.status==='Cancelado').length;
+  const analise = produtos.filter(p=>p.tab==='Em análise').length;
   document.getElementById('stats').innerHTML = `
     <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value blue">${produtos.length}</div></div>
     <div class="stat-card"><div class="stat-label">Ativos</div><div class="stat-value green">${ativo}</div></div>
@@ -518,61 +500,59 @@ function renderStats() {
 }
 
 function tabBadge(val) {
-  const v = (val || '').toLowerCase().trim();
-  if (v === 'ok') return `<span class="badge badge-ok">${val}</span>`;
-  if (v === 'em análise' || v === 'em analise') return `<span class="badge badge-analise">${val}</span>`;
-  if (v === 'cancelado') return `<span class="badge badge-cancelar">${val}</span>`;
-  return `<span style="color:var(--muted)">${val || ''}</span>`;
+  const v = (val||'').toLowerCase().trim();
+  if (v==='ok') return `<span class="badge badge-ok">${val}</span>`;
+  if (v==='em análise'||v==='em analise') return `<span class="badge badge-analise">${val}</span>`;
+  if (v==='cancelado') return `<span class="badge badge-cancelar">${val}</span>`;
+  return `<span style="color:var(--muted)">${val||''}</span>`;
 }
-function escapeHtml(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+function escapeHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 window.renderTable = () => {
   const filtered = getFiltered();
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
-  if (page > totalPages) page = totalPages;
-  const slice = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
-  document.getElementById('empty-msg').style.display = slice.length === 0 ? 'block' : 'none';
+  const totalPages = Math.max(1, Math.ceil(filtered.length/PER_PAGE));
+  if (page>totalPages) page = totalPages;
+  const slice = filtered.slice((page-1)*PER_PAGE, page*PER_PAGE);
+  document.getElementById('empty-msg').style.display = slice.length===0?'block':'none';
 
   document.getElementById('tbody').innerHTML = slice.map(p => {
     const obsHtml = p.obs
       ? `<span class="tip-wrap">💬<span class="tip-box">${escapeHtml(p.obs)}</span></span>`
       : `<span style="color:#ccc">💬</span>`;
 
-    const arqs = p.arquivos || [];
+    // Sem coluna de clipe - coluna de ações inclui botão de arquivos se houver
+    const arqs = p.arquivos||[];
     const arquivosBtn = arqs.length > 0
       ? `<button class="act-btn" style="color:var(--teal);border-color:#a8ddd1" onclick="openViewFilesFromTable('${p.id}')" title="${arqs.length} arquivo(s)">📎 ${arqs.length}</button>`
       : '';
 
     return `<tr>
-      <td><span class="badge ${p.status === 'Ativo' ? 'badge-ativo' : 'badge-cancelado'}">${p.status || ''}</span></td>
-      <td style="font-family:monospace;font-size:11px">${p.gtin || ''}</td>
-      <td title="${escapeHtml(p.desc)}">${p.desc || ''}</td>
-      <td>${p.marca || ''}</td>
-      <td style="font-family:monospace;font-size:11px">${p.ncm || ''}</td>
+      <td><span class="badge ${p.status==='Ativo'?'badge-ativo':'badge-cancelado'}">${p.status||''}</span></td>
+      <td style="font-family:monospace;font-size:11px">${p.gtin||''}</td>
+      <td title="${escapeHtml(p.desc)}">${p.desc||''}</td>
+      <td>${p.marca||''}</td>
+      <td style="font-family:monospace;font-size:11px">${p.ncm||''}</td>
       <td>${tabBadge(p.tab)}</td>
       <td style="text-align:center;overflow:visible">${obsHtml}</td>
       <td><div class="action-btns">
         <button class="act-btn act-edit" onclick="editProduto('${p.id}')">Editar</button>
         <button class="act-btn act-hist" onclick="openHist('${p.id}')">Histórico</button>
         ${arquivosBtn}
-        ${p.status === 'Ativo' ? `<button class="act-btn act-cancel" onclick="openCancelModal('${p.id}')">Cancelar</button>` : ''}
+        ${p.status==='Ativo'?`<button class="act-btn act-cancel" onclick="openCancelModal('${p.id}')">Cancelar</button>`:''}
       </div></td>
     </tr>`;
   }).join('');
 
   let pag = `<span>${filtered.length} produto(s)</span><div class="page-btns">`;
-  pag += `<button onclick="goPage(${page - 1})" ${page === 1 ? 'disabled' : ''}>&#8249;</button>`;
-  for (let i = 1; i <= totalPages; i++) {
-    if (totalPages <= 7 || i === 1 || i === totalPages || Math.abs(i - page) <= 1)
-      pag += `<button class="${i === page ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
-    else if (Math.abs(i - page) === 2) pag += `<button disabled>…</button>`;
+  pag += `<button onclick="goPage(${page-1})" ${page===1?'disabled':''}>&#8249;</button>`;
+  for (let i=1;i<=totalPages;i++) {
+    if (totalPages<=7||i===1||i===totalPages||Math.abs(i-page)<=1) pag+=`<button class="${i===page?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    else if (Math.abs(i-page)===2) pag+=`<button disabled>…</button>`;
   }
-  pag += `<button onclick="goPage(${page + 1})" ${page === totalPages ? 'disabled' : ''}>&#8250;</button></div>`;
+  pag+=`<button onclick="goPage(${page+1})" ${page===totalPages?'disabled':''}>&#8250;</button></div>`;
   document.getElementById('pagination').innerHTML = pag;
 };
-window.goPage = p2 => { page = p2; renderTable(); };
+window.goPage = p2 => { page=p2; renderTable(); };
 
 // ======================== MODAL PRODUTO ========================
 window.openModal = (id) => {
@@ -581,24 +561,24 @@ window.openModal = (id) => {
   document.getElementById('modal-title').textContent = id ? 'Editar produto' : 'Novo produto';
   document.getElementById('upload-progress-inline').style.display = 'none';
   document.getElementById('upload-bar-inline').style.width = '0%';
-  setUploadStatus('', '');
+  document.getElementById('upload-status-msg').innerHTML = '';
 
   if (id) {
-    const p = produtos.find(x => x.id === id);
+    const p = produtos.find(x=>x.id===id);
     if (!p) return;
-    document.getElementById('f-gtin').value = p.gtin || '';
-    document.getElementById('f-status').value = p.status || 'Ativo';
-    document.getElementById('f-desc').value = p.desc || '';
-    document.getElementById('f-marca').value = p.marca || 'Panimix';
-    document.getElementById('f-ncm').value = p.ncm || '';
-    document.getElementById('f-tab').value = p.tab || 'Ok';
-    document.getElementById('f-obs').value = p.obs || '';
-    atualizarListaArquivos(p.arquivos || []);
+    document.getElementById('f-gtin').value = p.gtin||'';
+    document.getElementById('f-status').value = p.status||'Ativo';
+    document.getElementById('f-desc').value = p.desc||'';
+    document.getElementById('f-marca').value = p.marca||'Panimix';
+    document.getElementById('f-ncm').value = p.ncm||'';
+    document.getElementById('f-tab').value = p.tab||'Ok';
+    document.getElementById('f-obs').value = p.obs||'';
+    atualizarListaArquivos(p.arquivos||[]);
   } else {
-    ['f-gtin', 'f-desc', 'f-ncm', 'f-obs'].forEach(fid => document.getElementById(fid).value = '');
-    document.getElementById('f-status').value = 'Ativo';
-    document.getElementById('f-marca').value = 'Panimix';
-    document.getElementById('f-tab').value = 'Ok';
+    ['f-gtin','f-desc','f-ncm','f-obs'].forEach(fid=>document.getElementById(fid).value='');
+    document.getElementById('f-status').value='Ativo';
+    document.getElementById('f-marca').value='Panimix';
+    document.getElementById('f-tab').value='Ok';
     atualizarListaArquivos([]);
   }
   document.getElementById('modal-produto').classList.add('open');
@@ -608,14 +588,16 @@ function atualizarListaArquivos(arquivos) {
   const listEl = document.getElementById('inline-file-list');
   const countEl = document.getElementById('inline-file-count');
 
-  let html = arquivos.map((f, i) => `
+  // Mostra arquivos salvos no Firestore
+  let html = arquivos.map((f,i) => `
     <div class="inline-file-item">
       <span>📄</span>
       <a href="${escapeHtml(f.url)}" target="_blank" rel="noopener">${escapeHtml(f.nome)}</a>
       <button class="file-del" onclick="deleteFileInline(${i})" title="Remover">✕</button>
     </div>`).join('');
 
-  pendingFiles.forEach((pf, i) => {
+  // Mostra arquivos pendentes (produto novo)
+  pendingFiles.forEach((pf,i) => {
     html += `<div class="inline-file-item">
       <span>📄</span>
       <span style="flex:1;overflow:hidden;text-overflow:ellipsis;color:var(--muted)">${escapeHtml(pf.nome)} <em style="font-size:10px;color:var(--amber)">(pendente)</em></span>
@@ -629,153 +611,101 @@ function atualizarListaArquivos(arquivos) {
 
 window.removePending = (idx) => {
   pendingFiles.splice(idx, 1);
-  const arqs = editingId ? (produtos.find(x => x.id === editingId)?.arquivos || []) : [];
+  const arqs = editingId ? (produtos.find(x=>x.id===editingId)?.arquivos||[]) : [];
   atualizarListaArquivos(arqs);
-  if (pendingFiles.length === 0) setUploadStatus('', '');
-  else setUploadStatus(`📎 ${pendingFiles.length} arquivo(s) será(ão) enviado(s) ao salvar.`, 'pending');
 };
 
 window.deleteFileInline = async (idx) => {
   if (!editingId) return;
   if (!confirm('Remover este arquivo?')) return;
-  const p = produtos.find(x => x.id === editingId);
-  const arquivos = [...(p?.arquivos || [])];
-  const [removed] = arquivos.splice(idx, 1);
+  const p = produtos.find(x=>x.id===editingId);
+  const arquivos = [...(p?.arquivos||[])];
+  const [removed] = arquivos.splice(idx,1);
   try {
-    if (removed.path) await deleteObject(ref(storage, removed.path)).catch(() => {});
-    await updateDoc(doc(db, 'produtos', editingId), { arquivos, atualizadoEm: serverTimestamp(), atualizadoPor: currentUser?.email || '' });
-    await addHistorico(editingId, 'Remoção de arquivo', `Arquivo: ${removed.nome}`);
+    if (removed.path) await deleteObject(ref(storage,removed.path)).catch(()=>{});
+    await updateDoc(doc(db,'produtos',editingId),{arquivos,atualizadoEm:serverTimestamp(),atualizadoPor:currentUser?.email||''});
+    await addHistorico(editingId,'Remoção de arquivo',`Arquivo: ${removed.nome}`);
     toast('Arquivo removido.');
     await loadProdutos();
-    const pAtual = produtos.find(x => x.id === editingId);
-    atualizarListaArquivos(pAtual?.arquivos || []);
-  } catch(e) { toast('Erro ao remover: ' + e.message); }
+    const pAtual = produtos.find(x=>x.id===editingId);
+    atualizarListaArquivos(pAtual?.arquivos||[]);
+  } catch(e) { toast('Erro ao remover: '+e.message); }
 };
 
-// ======================== UPLOAD — CORRIGIDO ========================
+// ======================== UPLOAD ========================
+// CORREÇÃO PRINCIPAL: upload imediato para produtos existentes
 window.handleFileInline = async (e) => {
   const file = e.target.files[0];
   if (!file) return;
   e.target.value = '';
 
-  if (file.size > 10 * 1024 * 1024) { toast('Arquivo muito grande. Máx. 10 MB.'); return; }
-  if (!['application/pdf', 'image/jpeg', 'image/png'].includes(file.type)) { toast('Apenas PDF, JPG ou PNG.'); return; }
+  if (file.size > 10*1024*1024) { toast('Arquivo muito grande. Máx. 10 MB.'); return; }
+  if (!['application/pdf','image/jpeg','image/png'].includes(file.type)) { toast('Apenas PDF, JPG ou PNG.'); return; }
 
   if (editingId) {
-    // Produto já existe → upload imediato
+    // Produto já existe no Firestore → faz upload imediato
     await doUpload(file, editingId);
   } else {
-    // Produto novo → guarda como pendente até salvar
+    // Produto ainda não existe → guarda como pendente
     pendingFiles.push({ nome: file.name, file });
-    const arqs = [];
-    atualizarListaArquivos(arqs);
-    setUploadStatus(`📎 ${pendingFiles.length} arquivo(s) será(ão) enviado(s) ao salvar o produto.`, 'pending');
+    atualizarListaArquivos([]);
+    document.getElementById('upload-status-msg').innerHTML =
+      `<div class="upload-status-msg pending">📎 ${pendingFiles.length} arquivo(s) será(ão) enviado(s) ao salvar o produto.</div>`;
   }
 };
 
-// FUNÇÃO DE UPLOAD REESCRITA — Promise com reject correto em todos os caminhos
 async function doUpload(file, prodId) {
   const progWrap = document.getElementById('upload-progress-inline');
   const bar = document.getElementById('upload-bar-inline');
+  const statusEl = document.getElementById('upload-status-msg');
 
   progWrap.style.display = 'block';
   bar.style.width = '0%';
-  setUploadStatus(`⏳ Enviando ${file.name}...`, 'uploading');
+  statusEl.innerHTML = `<div class="upload-status-msg uploading">⏳ Enviando ${file.name}...</div>`;
 
-  const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-  const path = `tabelas/${prodId}/${Date.now()}_${safeFileName}`;
-  const storRef = ref(storage, path);
-
-  let task;
   try {
-    task = uploadBytesResumable(storRef, file);
+    const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const path = `tabelas/${prodId}/${Date.now()}_${safeFileName}`;
+    const storRef = ref(storage, path);
+    const task = uploadBytesResumable(storRef, file);
+
+    await new Promise((resolve, reject) => {
+      task.on('state_changed',
+        snap => { bar.style.width = Math.round(snap.bytesTransferred/snap.totalBytes*100)+'%'; },
+        err => reject(err),
+        async () => {
+          try {
+            const url = await getDownloadURL(task.snapshot.ref);
+            const p = produtos.find(x=>x.id===prodId);
+            const arquivos = [...(p?.arquivos||[]), {nome:file.name, url, path}];
+            await updateDoc(doc(db,'produtos',prodId),{arquivos,atualizadoEm:serverTimestamp(),atualizadoPor:currentUser?.email||''});
+            await addHistorico(prodId,'Upload de arquivo',`Arquivo: ${file.name}`);
+            resolve();
+          } catch(e2) { reject(e2); }
+        }
+      );
+    });
+
+    progWrap.style.display = 'none';
+    statusEl.innerHTML = `<div class="upload-status-msg success">✅ ${file.name} enviado com sucesso!</div>`;
+    setTimeout(() => { statusEl.innerHTML = ''; }, 3000);
+
+    await loadProdutos();
+    const pAtual = produtos.find(x=>x.id===prodId);
+    atualizarListaArquivos(pAtual?.arquivos||[]);
+
   } catch(err) {
     progWrap.style.display = 'none';
-    setUploadStatus(`❌ Erro ao iniciar upload: ${err.message}`, 'error');
-    console.error('uploadBytesResumable init error:', err);
-    throw err;
+    statusEl.innerHTML = '';
+    console.error('Upload error:', err);
+    toast('Erro no upload: ' + (err.message||err.code||'Erro desconhecido'));
   }
-
-  return new Promise((resolve, reject) => {
-    task.on(
-      'state_changed',
-      (snap) => {
-        const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
-        bar.style.width = pct + '%';
-      },
-      (err) => {
-        // Erro de rede, CORS ou regras do Storage
-        progWrap.style.display = 'none';
-        const msg = traduzirErroStorage(err);
-        setUploadStatus(`❌ Falha no upload: ${msg}`, 'error');
-        console.error('Upload state_changed error:', err.code, err.message);
-        reject(err);
-      },
-      () => {
-        // Upload concluído — busca URL e atualiza Firestore
-        getDownloadURL(task.snapshot.ref)
-          .then(async (url) => {
-            try {
-              // Busca os arquivos atuais diretamente do Firestore para evitar estado desatualizado
-              const prodSnap = await getDoc(doc(db, 'produtos', prodId));
-              const arquivosAtuais = prodSnap.exists() ? (prodSnap.data().arquivos || []) : [];
-              const arquivos = [...arquivosAtuais, { nome: file.name, url, path }];
-
-              await updateDoc(doc(db, 'produtos', prodId), {
-                arquivos,
-                atualizadoEm: serverTimestamp(),
-                atualizadoPor: currentUser?.email || '',
-              });
-              await addHistorico(prodId, 'Upload de arquivo', `Arquivo: ${file.name}`);
-
-              progWrap.style.display = 'none';
-              setUploadStatus(`✅ ${file.name} enviado com sucesso!`, 'success');
-              setTimeout(() => setUploadStatus('', ''), 3500);
-
-              await loadProdutos();
-              const pAtual = produtos.find(x => x.id === prodId);
-              atualizarListaArquivos(pAtual?.arquivos || []);
-              resolve();
-            } catch(firestoreErr) {
-              progWrap.style.display = 'none';
-              setUploadStatus(`❌ Arquivo enviado mas erro ao salvar referência: ${firestoreErr.message}`, 'error');
-              console.error('Firestore update error after upload:', firestoreErr);
-              reject(firestoreErr);
-            }
-          })
-          .catch((urlErr) => {
-            progWrap.style.display = 'none';
-            setUploadStatus(`❌ Erro ao obter URL do arquivo: ${urlErr.message}`, 'error');
-            console.error('getDownloadURL error:', urlErr);
-            reject(urlErr);
-          });
-      }
-    );
-  });
-}
-
-function traduzirErroStorage(err) {
-  const codes = {
-    'storage/unauthorized': 'Sem permissão. Verifique as regras do Firebase Storage.',
-    'storage/canceled': 'Upload cancelado.',
-    'storage/unknown': 'Erro desconhecido. Verifique sua conexão.',
-    'storage/quota-exceeded': 'Cota de armazenamento excedida.',
-    'storage/unauthenticated': 'Usuário não autenticado.',
-    'storage/retry-limit-exceeded': 'Tempo limite excedido. Tente novamente.',
-    'storage/invalid-checksum': 'Arquivo corrompido durante o envio.',
-    'storage/cannot-slice-blob': 'Erro ao ler o arquivo.',
-    'storage/server-file-wrong-size': 'Tamanho do arquivo divergente.',
-  };
-  return codes[err.code] || (err.message || err.code || 'Erro desconhecido');
 }
 
 async function uploadPendingFiles(prodId) {
   for (const pf of pendingFiles) {
-    try {
-      await doUpload(pf.file, prodId);
-    } catch(e) {
-      toast(`Erro ao enviar "${pf.nome}": ${traduzirErroStorage(e)}`);
-    }
+    try { await doUpload(pf.file, prodId); }
+    catch(e) { toast(`Erro ao enviar "${pf.nome}": ${e.message}`); }
   }
   pendingFiles = [];
 }
@@ -784,8 +714,7 @@ async function uploadPendingFiles(prodId) {
 window.saveProduto = async () => {
   const gtin = document.getElementById('f-gtin').value.trim();
   const desc = document.getElementById('f-desc').value.trim();
-  if (!gtin || !desc) { toast('Preencha GTIN e Descrição.'); return; }
-
+  if (!gtin||!desc) { toast('Preencha GTIN e Descrição.'); return; }
   const obj = {
     gtin, desc,
     status: document.getElementById('f-status').value,
@@ -794,68 +723,55 @@ window.saveProduto = async () => {
     tab: document.getElementById('f-tab').value,
     obs: document.getElementById('f-obs').value.trim(),
     atualizadoEm: serverTimestamp(),
-    atualizadoPor: currentUser?.email || '',
+    atualizadoPor: currentUser?.email||'',
   };
-
   const btn = document.getElementById('btn-save');
   btn.innerHTML = '<span class="spinner"></span>Salvando...'; btn.disabled = true;
-
   try {
     if (editingId) {
-      const antes = produtos.find(x => x.id === editingId);
-      await updateDoc(doc(db, 'produtos', editingId), obj);
-      await addHistorico(editingId, 'Edição', gerarDiff(antes, obj));
-      closeModal('modal-produto');
-      toast('✅ Salvo com sucesso!');
-      await loadProdutos();
+      const antes = produtos.find(x=>x.id===editingId);
+      await updateDoc(doc(db,'produtos',editingId), obj);
+      await addHistorico(editingId,'Edição',gerarDiff(antes,obj));
     } else {
-      obj.criadoEm = serverTimestamp();
-      obj.criadoPor = currentUser?.email || '';
-      obj.arquivos = [];
-      const docRef = await addDoc(collection(db, 'produtos'), obj);
-      await addHistorico(docRef.id, 'Criação', 'Produto cadastrado.');
-
+      obj.criadoEm = serverTimestamp(); obj.criadoPor = currentUser?.email||''; obj.arquivos = [];
+      const docRef = await addDoc(collection(db,'produtos'), obj);
+      await addHistorico(docRef.id,'Criação','Produto cadastrado.');
       if (pendingFiles.length > 0) {
         btn.innerHTML = '<span class="spinner"></span>Enviando arquivos...';
-        // Recarrega para que o produto novo esteja no array antes do upload
-        await loadProdutos();
+        // Adiciona temporariamente ao array para doUpload encontrar o produto
+        produtos.unshift({id:docRef.id,...obj,arquivos:[]});
         await uploadPendingFiles(docRef.id);
       }
-
-      closeModal('modal-produto');
-      toast('✅ Produto criado com sucesso!');
-      await loadProdutos();
     }
-  } catch(e) {
-    toast('Erro: ' + e.message);
-  } finally {
-    btn.textContent = 'Salvar';
-    btn.disabled = false;
-  }
+    closeModal('modal-produto');
+    toast('✅ Salvo com sucesso!');
+    await loadProdutos();
+  } catch(e) { toast('Erro: '+e.message); }
+  finally { btn.textContent='Salvar'; btn.disabled=false; }
 };
 
 function gerarDiff(antes, depois) {
-  const campos = { gtin: 'GTIN', desc: 'Descrição', status: 'Status', marca: 'Marca', ncm: 'NCM', tab: 'Tab. Nutricional', obs: 'OBS' };
-  const linhas = [];
-  for (const [k, label] of Object.entries(campos)) {
-    if ((antes[k] || '') !== (depois[k] || '')) linhas.push(`${label}: "${antes[k] || ''}" → "${depois[k] || ''}"`);
+  const campos = {gtin:'GTIN',desc:'Descrição',status:'Status',marca:'Marca',ncm:'NCM',tab:'Tab. Nutricional',obs:'OBS'};
+  const linhas=[];
+  for (const [k,label] of Object.entries(campos)) {
+    if ((antes[k]||'')!==(depois[k]||'')) linhas.push(`${label}: "${antes[k]||''}" → "${depois[k]||''}"`);
   }
-  return linhas.length ? linhas.join('\n') : 'Sem alterações de campos.';
+  return linhas.length?linhas.join('\n'):'Sem alterações de campos.';
 }
 
 // ======================== VISUALIZAR ARQUIVOS ========================
 window.openViewFilesModal = () => {
-  const arquivos = editingId ? (produtos.find(x => x.id === editingId)?.arquivos || []) : [];
-  const desc = editingId ? (produtos.find(x => x.id === editingId)?.desc || '') : 'Novo produto';
+  const arquivos = editingId ? (produtos.find(x=>x.id===editingId)?.arquivos||[]) : [];
+  const desc = editingId ? (produtos.find(x=>x.id===editingId)?.desc||'') : 'Novo produto';
   document.getElementById('view-files-title').textContent = `Arquivos — ${desc}`;
   buildViewFilesList(arquivos, pendingFiles);
   document.getElementById('modal-view-files').classList.add('open');
 };
 
 window.openViewFilesFromTable = (id) => {
-  const p = produtos.find(x => x.id === id);
-  document.getElementById('view-files-title').textContent = `Arquivos — ${p?.desc || ''}`;
-  buildViewFilesList(p?.arquivos || [], []);
+  const p = produtos.find(x=>x.id===id);
+  document.getElementById('view-files-title').textContent = `Arquivos — ${p?.desc||''}`;
+  buildViewFilesList(p?.arquivos||[], []);
   document.getElementById('modal-view-files').classList.add('open');
 };
 
@@ -863,15 +779,15 @@ function buildViewFilesList(arquivos, pending) {
   const el = document.getElementById('view-files-list');
   const items = [];
   arquivos.forEach(f => {
-    const ext = (f.nome || '').split('.').pop().toLowerCase();
-    const icon = ext === 'pdf' ? '📕' : '🖼️';
+    const ext = (f.nome||'').split('.').pop().toLowerCase();
+    const icon = ext==='pdf'?'📕':'🖼️';
     items.push(`<div class="view-file-item">
       <span class="file-icon">${icon}</span>
       <span class="file-name">${escapeHtml(f.nome)}</span>
       <a class="btn-abrir" href="${escapeHtml(f.url)}" target="_blank" rel="noopener">🔗 Abrir</a>
     </div>`);
   });
-  if (pending && pending.length > 0) {
+  if (pending&&pending.length>0) {
     pending.forEach(f => {
       items.push(`<div class="view-file-item" style="opacity:0.65">
         <span class="file-icon">📄</span>
@@ -883,131 +799,91 @@ function buildViewFilesList(arquivos, pending) {
 }
 
 // ======================== CANCELAMENTO ========================
-window.openCancelModal = (id) => {
-  cancelingId = id;
-  document.getElementById('cancel-motivo').value = '';
-  document.getElementById('modal-cancel').classList.add('open');
-};
+window.openCancelModal = (id) => { cancelingId=id; document.getElementById('cancel-motivo').value=''; document.getElementById('modal-cancel').classList.add('open'); };
 window.confirmCancel = async () => {
   const motivo = document.getElementById('cancel-motivo').value.trim();
   if (!motivo) { toast('Informe o motivo do cancelamento.'); return; }
   try {
-    await updateDoc(doc(db, 'produtos', cancelingId), { status: 'Cancelado', tab: 'Cancelado', atualizadoEm: serverTimestamp(), atualizadoPor: currentUser?.email || '' });
-    await addHistorico(cancelingId, 'Cancelamento', `Motivo: ${motivo}`);
-    closeModal('modal-cancel');
-    toast('Produto cancelado.');
-    await loadProdutos();
-  } catch(e) { toast('Erro: ' + e.message); }
+    await updateDoc(doc(db,'produtos',cancelingId),{status:'Cancelado',tab:'Cancelado',atualizadoEm:serverTimestamp(),atualizadoPor:currentUser?.email||''});
+    await addHistorico(cancelingId,'Cancelamento',`Motivo: ${motivo}`);
+    closeModal('modal-cancel'); toast('Produto cancelado.'); await loadProdutos();
+  } catch(e) { toast('Erro: '+e.message); }
 };
 
 // ======================== HISTÓRICO ========================
-async function addHistorico(produtoId, acao, detalhe) {
-  try {
-    await addDoc(collection(db, 'produtos', produtoId, 'historico'), {
-      acao, detalhe,
-      por: currentUser?.email || '',
-      nome: currentUser?.displayName || currentUser?.email || '',
-      em: serverTimestamp()
-    });
-  } catch(e) { console.warn('addHistorico falhou:', e); }
+async function addHistorico(produtoId,acao,detalhe) {
+  try { await addDoc(collection(db,'produtos',produtoId,'historico'),{acao,detalhe,por:currentUser?.email||'',nome:currentUser?.displayName||currentUser?.email||'',em:serverTimestamp()}); }
+  catch(e){ console.warn('addHistorico falhou:',e); }
 }
 window.openHist = async (id) => {
-  const p = produtos.find(x => x.id === id);
-  document.getElementById('hist-title').textContent = `Histórico — ${p?.desc || id}`;
-  document.getElementById('hist-list').innerHTML = '<div class="hist-empty"><span class="spinner spinner-dark"></span> Carregando...</div>';
+  const p = produtos.find(x=>x.id===id);
+  document.getElementById('hist-title').textContent = `Histórico — ${p?.desc||id}`;
+  document.getElementById('hist-list').innerHTML='<div class="hist-empty"><span class="spinner spinner-dark"></span> Carregando...</div>';
   document.getElementById('modal-hist').classList.add('open');
   try {
-    const snap = await getDocs(query(collection(db, 'produtos', id, 'historico'), orderBy('em', 'desc')));
-    const items = [];
-    snap.forEach(d => items.push(d.data()));
+    const snap = await getDocs(query(collection(db,'produtos',id,'historico'),orderBy('em','desc')));
+    const items=[]; snap.forEach(d=>items.push(d.data()));
     document.getElementById('hist-list').innerHTML = items.length
-      ? items.map(h => `<div class="hist-item">
-          <div><span class="hist-who">${escapeHtml(h.nome || h.por || '?')}</span><span class="hist-when">${h.em?.toDate ? h.em.toDate().toLocaleString('pt-BR') : '—'}</span></div>
-          <div class="hist-action"><strong>${escapeHtml(h.acao)}</strong>${h.detalhe ? '\n' + escapeHtml(h.detalhe) : ''}</div>
-        </div>`).join('')
+      ? items.map(h=>`<div class="hist-item"><div><span class="hist-who">${escapeHtml(h.nome||h.por||'?')}</span><span class="hist-when">${h.em?.toDate?h.em.toDate().toLocaleString('pt-BR'):'—'}</span></div><div class="hist-action"><strong>${escapeHtml(h.acao)}</strong>${h.detalhe?'\n'+escapeHtml(h.detalhe):''}</div></div>`).join('')
       : '<div class="hist-empty">Nenhum registro ainda.</div>';
-  } catch(e) {
-    document.getElementById('hist-list').innerHTML = '<div class="hist-empty">Erro ao carregar.</div>';
-  }
+  } catch(e) { document.getElementById('hist-list').innerHTML='<div class="hist-empty">Erro ao carregar.</div>'; }
 };
 
 // ======================== EXPORTAR ========================
 window.exportExcel = () => {
   const filtered = getFiltered();
-  const rows = [['Status', 'GTIN', 'Descrição', 'Marca', 'NCM', 'Tab. Nutricional', 'OBS']];
-  filtered.forEach(p => rows.push([p.status || '', p.gtin || '', p.desc || '', p.marca || '', p.ncm || '', p.tab || '', p.obs || '']));
-  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(';')).join('\r\n');
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `produtos_panimix_${new Date().toISOString().slice(0, 10)}.csv`;
-  a.click();
+  const rows=[['Status','GTIN','Descrição','Marca','NCM','Tab. Nutricional','OBS']];
+  filtered.forEach(p=>rows.push([p.status||'',p.gtin||'',p.desc||'',p.marca||'',p.ncm||'',p.tab||'',p.obs||'']));
+  const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(';')).join('\r\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`produtos_panimix_${new Date().toISOString().slice(0,10)}.csv`; a.click();
   toast('Exportado! Abra o arquivo no Excel.');
 };
 
 // ======================== USERS ========================
 async function loadUsers() {
-  document.getElementById('users-loading').style.display = 'block';
-  try {
-    const snap = await getDocs(collection(db, 'usuarios'));
-    usuarios = [];
-    snap.forEach(d => usuarios.push({ id: d.id, ...d.data() }));
-    renderUsers();
-  } catch(e) { toast('Erro ao carregar usuários.'); }
-  document.getElementById('users-loading').style.display = 'none';
+  document.getElementById('users-loading').style.display='block';
+  try { const snap=await getDocs(collection(db,'usuarios')); usuarios=[]; snap.forEach(d=>usuarios.push({id:d.id,...d.data()})); renderUsers(); }
+  catch(e){ toast('Erro ao carregar usuários.'); }
+  document.getElementById('users-loading').style.display='none';
 }
 function renderUsers() {
-  document.getElementById('users-tbody').innerHTML = usuarios.map(u => `
+  document.getElementById('users-tbody').innerHTML=usuarios.map(u=>`
     <tr>
-      <td>${escapeHtml(u.nome || '-')}</td>
-      <td>${escapeHtml(u.email || '-')}</td>
-      <td><span class="badge ${u.role === 'admin' ? 'badge-ativo' : 'badge-analise'}">${u.role || 'editor'}</span></td>
-      <td style="color:var(--muted);font-size:12px">${u.criadoEm?.toDate ? u.criadoEm.toDate().toLocaleDateString('pt-BR') : '-'}</td>
+      <td>${escapeHtml(u.nome||'-')}</td><td>${escapeHtml(u.email||'-')}</td>
+      <td><span class="badge ${u.role==='admin'?'badge-ativo':'badge-analise'}">${u.role||'editor'}</span></td>
+      <td style="color:var(--muted);font-size:12px">${u.criadoEm?.toDate?u.criadoEm.toDate().toLocaleDateString('pt-BR'):'-'}</td>
       <td><select onchange="changeRole('${u.id}',this.value)" style="font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:6px;background:var(--surface)">
-        <option ${u.role === 'editor' ? 'selected' : ''} value="editor">editor</option>
-        <option ${u.role === 'admin' ? 'selected' : ''} value="admin">admin</option>
+        <option ${u.role==='editor'?'selected':''} value="editor">editor</option>
+        <option ${u.role==='admin'?'selected':''} value="admin">admin</option>
       </select></td>
     </tr>`).join('');
 }
-window.changeRole = async (uid, role) => {
-  try { await updateDoc(doc(db, 'usuarios', uid), { role }); toast('Papel atualizado.'); }
-  catch(e) { toast('Erro: ' + e.message); }
-};
-window.openUserModal = () => {
-  ['u-email', 'u-name'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('modal-user').classList.add('open');
-};
+window.changeRole = async (uid,role) => { try { await updateDoc(doc(db,'usuarios',uid),{role}); toast('Papel atualizado.'); } catch(e){ toast('Erro: '+e.message); } };
+window.openUserModal = () => { ['u-email','u-name'].forEach(id=>document.getElementById(id).value=''); document.getElementById('modal-user').classList.add('open'); };
 window.inviteUser = async () => {
-  const email = document.getElementById('u-email').value.trim();
-  const name = document.getElementById('u-name').value.trim();
-  const role = document.getElementById('u-role').value;
-  if (!email || !name) { toast('Preencha e-mail e nome.'); return; }
-  const btn = document.getElementById('btn-invite');
-  btn.innerHTML = '<span class="spinner"></span>Criando...'; btn.disabled = true;
+  const email=document.getElementById('u-email').value.trim(), name=document.getElementById('u-name').value.trim(), role=document.getElementById('u-role').value;
+  if (!email||!name) { toast('Preencha e-mail e nome.'); return; }
+  const btn=document.getElementById('btn-invite');
+  btn.innerHTML='<span class="spinner"></span>Criando...'; btn.disabled=true;
   try {
-    const tempPass = Math.random().toString(36).slice(-8) + 'A1!';
-    const cred = await createUserWithEmailAndPassword(auth, email, tempPass);
-    await updateProfile(cred.user, { displayName: name });
-    await setDoc(doc(db, 'usuarios', cred.user.uid), { nome: name, email, role, criadoEm: serverTimestamp() });
-    closeModal('modal-user');
-    toast(`✅ Usuário criado! Senha temporária: ${tempPass}`);
-    await loadUsers();
-  } catch(e) { toast('Erro: ' + traduzirErro(e.code)); }
-  finally { btn.textContent = 'Criar usuário'; btn.disabled = false; }
+    const tempPass=Math.random().toString(36).slice(-8)+'A1!';
+    const cred=await createUserWithEmailAndPassword(auth,email,tempPass);
+    await updateProfile(cred.user,{displayName:name});
+    await setDoc(doc(db,'usuarios',cred.user.uid),{nome:name,email,role,criadoEm:serverTimestamp()});
+    closeModal('modal-user'); toast(`✅ Usuário criado! Senha temporária: ${tempPass}`); await loadUsers();
+  } catch(e){ toast('Erro: '+traduzirErro(e.code)); }
+  finally { btn.textContent='Criar usuário'; btn.disabled=false; }
 };
 
-// ======================== TOAST + MODAIS ========================
-window.toast = (msg) => {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show';
-  setTimeout(() => { t.className = ''; }, 4500);
-};
+// ======================== TOAST + MODAL CLOSE ========================
+window.toast = (msg) => { const t=document.getElementById('toast'); t.textContent=msg; t.className='show'; setTimeout(()=>{ t.className=''; },4500); };
 window.closeModal = (id) => document.getElementById(id).classList.remove('open');
 window.editProduto = (id) => openModal(id);
 
 document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+  el.addEventListener('click', e => { if(e.target===el) el.classList.remove('open'); });
 });
 </script>
 </body>
