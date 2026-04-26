@@ -20,11 +20,9 @@
   }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
 
-  /* AUTH */
   #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
   .auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem 2rem; width: 380px; max-width: 95vw; text-align: center; }
   .auth-card .form-group { text-align: left; }
-  .auth-card .btn-primary { text-align: center; }
   .auth-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; margin-top: 0; }
   .form-group { margin-bottom: 1rem; }
   .form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
@@ -45,7 +43,6 @@
   .error-msg { font-size: 12px; color: var(--red); background: var(--red-light); border: 1px solid #f7c1c1; border-radius: var(--radius); padding: 8px 12px; margin-bottom: 1rem; display: none; }
   .error-msg.show { display: block; }
 
-  /* APP */
   #app-screen { display: none; }
   .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 1.5rem; height: 52px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
   .topbar-brand { font-size: 15px; font-weight: 600; color: var(--blue); }
@@ -57,10 +54,8 @@
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
   .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
   .stat-value { font-size: 24px; font-weight: 600; }
-  .stat-value.blue { color: var(--blue); }
-  .stat-value.green { color: var(--green); }
-  .stat-value.red { color: var(--red); }
-  .stat-value.amber { color: var(--amber); }
+  .stat-value.blue { color: var(--blue); } .stat-value.green { color: var(--green); }
+  .stat-value.red { color: var(--red); } .stat-value.amber { color: var(--amber); }
 
   .toolbar { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
   .toolbar input, .toolbar select { padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; background: var(--surface); color: var(--text); height: 34px; }
@@ -75,6 +70,8 @@
   td { padding: 9px 10px; border-bottom: 1px solid var(--border); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   tr:last-child td { border-bottom: none; }
   tbody tr:hover td { background: #fafafa; }
+
+  /* Colunas sem a coluna de clipe */
   th:nth-child(1),td:nth-child(1) { width: 75px; }
   th:nth-child(2),td:nth-child(2) { width: 115px; }
   th:nth-child(3),td:nth-child(3) { width: auto; }
@@ -82,8 +79,7 @@
   th:nth-child(5),td:nth-child(5) { width: 85px; }
   th:nth-child(6),td:nth-child(6) { width: 90px; }
   th:nth-child(7),td:nth-child(7) { width: 30px; text-align: center; }
-  th:nth-child(8),td:nth-child(8) { width: 30px; text-align: center; }
-  th:nth-child(9),td:nth-child(9) { width: 170px; }
+  th:nth-child(8),td:nth-child(8) { width: 170px; }
 
   .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
   .badge-ativo { background: var(--green-light); color: var(--green); }
@@ -99,19 +95,10 @@
   .act-cancel { color: var(--red); border-color: #f7c1c1; }
   .act-hist { color: var(--amber); border-color: #f5d9a8; }
 
-  /* OBS tooltip */
   .tip-wrap { position: relative; display: inline-block; cursor: pointer; font-size: 14px; }
-  .tip-wrap .tip-box {
-    display: none; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%);
-    background: #222; color: #fff; padding: 7px 10px; border-radius: 6px; font-size: 11px;
-    white-space: pre-wrap; min-width: 160px; max-width: 260px; z-index: 50; line-height: 1.45;
-    word-break: break-word; pointer-events: none;
-  }
+  .tip-wrap .tip-box { display: none; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); background: #222; color: #fff; padding: 7px 10px; border-radius: 6px; font-size: 11px; white-space: pre-wrap; min-width: 160px; max-width: 260px; z-index: 50; line-height: 1.45; word-break: break-word; pointer-events: none; }
   .tip-wrap:hover .tip-box { display: block; }
-  .tip-wrap .tip-box::after {
-    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-    border: 5px solid transparent; border-top-color: #222;
-  }
+  .tip-wrap .tip-box::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: #222; }
 
   .pagination { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; font-size: 12px; color: var(--muted); flex-wrap: wrap; gap: 8px; }
   .page-btns { display: flex; gap: 4px; }
@@ -121,7 +108,6 @@
   .empty { text-align: center; padding: 2.5rem; color: var(--muted); font-size: 13px; }
   .loading { text-align: center; padding: 2rem; color: var(--muted); font-size: 13px; }
 
-  /* MODAL */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
   .modal-overlay.open { display: flex; }
   .modal { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.75rem; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; }
@@ -142,7 +128,6 @@
   .upload-section { grid-column: 1 / -1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
   .upload-section-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; display: block; }
   .upload-inline-btns { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .upload-inline-btns label.btn-teal { cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
   .upload-progress-inline { margin-top: 10px; background: #ddd; border-radius: 20px; height: 5px; display: none; }
   .upload-bar-inline { height: 100%; background: var(--teal); border-radius: 20px; width: 0%; transition: width 0.2s; }
   .inline-file-list { margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
@@ -151,6 +136,10 @@
   .inline-file-item a:hover { text-decoration: underline; }
   .inline-file-item .file-del { background: none; border: none; color: var(--red); cursor: pointer; font-size: 14px; padding: 0; flex-shrink: 0; }
   .upload-hint { font-size: 11px; color: var(--subtle); margin-top: 8px; }
+  .upload-status-msg { font-size: 12px; margin-top: 8px; padding: 6px 10px; border-radius: 6px; }
+  .upload-status-msg.uploading { background: var(--amber-light); color: var(--amber); }
+  .upload-status-msg.success { background: var(--teal-light); color: var(--teal); }
+  .upload-status-msg.pending { background: var(--amber-light); color: var(--amber); }
 
   /* VISUALIZAR ARQUIVOS */
   .view-files-list { display: flex; flex-direction: column; gap: 8px; max-height: 420px; overflow-y: auto; }
@@ -161,18 +150,14 @@
   .view-file-item .btn-abrir:hover { background: var(--teal); color: #fff; }
   .view-empty { text-align: center; padding: 2rem; color: var(--muted); font-size: 13px; }
 
-  /* HISTÓRICO */
   .hist-list { display: flex; flex-direction: column; gap: 8px; max-height: 420px; overflow-y: auto; }
   .hist-item { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; font-size: 12px; }
   .hist-who { font-weight: 600; }
   .hist-when { color: var(--muted); margin-left: 6px; }
   .hist-action { margin-top: 4px; color: var(--muted); white-space: pre-wrap; line-height: 1.5; }
   .hist-empty { text-align: center; padding: 2rem; color: var(--muted); font-size: 13px; }
-
-  /* CANCELAMENTO */
   .cancel-warning { background: var(--red-light); border: 1px solid #f7c1c1; border-radius: var(--radius); padding: 10px 12px; font-size: 13px; color: var(--red); margin-bottom: 1rem; }
 
-  /* USERS */
   .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
   .section-title { font-size: 15px; font-weight: 600; }
   .users-table { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
@@ -206,14 +191,8 @@
     <img src="data:image/webp;base64,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" alt="Panimix" style="height:180px;object-fit:contain;display:block;margin:0 auto -0.5rem auto;" />
     <div class="auth-sub">Acesso restrito — entre com suas credenciais</div>
     <div id="auth-error" class="error-msg"></div>
-    <div class="form-group">
-      <label>E-mail</label>
-      <input type="email" id="login-email" placeholder="seu@email.com" />
-    </div>
-    <div class="form-group">
-      <label>Senha</label>
-      <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
-    </div>
+    <div class="form-group"><label>E-mail</label><input type="email" id="login-email" placeholder="seu@email.com" /></div>
+    <div class="form-group"><label>Senha</label><input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" /></div>
     <button class="btn btn-primary" onclick="doLogin()" id="btn-login">Entrar</button>
   </div>
 </div>
@@ -227,14 +206,12 @@
       <button class="btn btn-sm btn-ghost" onclick="doLogout()">Sair</button>
     </div>
   </div>
-
   <div class="main">
     <div class="tabs">
       <button class="tab active" id="tab-produtos" onclick="showTab('produtos')">Produtos</button>
       <button class="tab" id="tab-admin" style="display:none" onclick="showTab('admin')">Usuários</button>
     </div>
 
-    <!-- PRODUTOS -->
     <div id="panel-produtos">
       <div class="stats-grid" id="stats"></div>
       <div class="toolbar">
@@ -262,10 +239,13 @@
         <table>
           <thead>
             <tr>
-              <th>Status</th><th>GTIN</th><th>Descrição</th><th>Marca</th><th>NCM</th>
+              <th>Status</th>
+              <th>GTIN</th>
+              <th>Descrição</th>
+              <th>Marca</th>
+              <th>NCM</th>
               <th>Tab. Nutricional</th>
               <th title="Observação" style="text-align:center">💬</th>
-              <th title="Arquivos" style="text-align:center">📎</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -277,7 +257,6 @@
       <div class="pagination" id="pagination"></div>
     </div>
 
-    <!-- ADMIN -->
     <div id="panel-admin" style="display:none">
       <div class="section-header">
         <div class="section-title">Usuários cadastrados</div>
@@ -308,10 +287,7 @@
       </div>
       <div class="fg full"><label>Descrição</label><input id="f-desc" type="text" placeholder="Nome do produto" /></div>
       <div class="fg"><label>Marca</label>
-        <select id="f-marca">
-          <option value="Panimix">Panimix</option>
-          <option value="Pannina">Pannina</option>
-        </select>
+        <select id="f-marca"><option value="Panimix">Panimix</option><option value="Pannina">Pannina</option></select>
       </div>
       <div class="fg"><label>NCM</label><input id="f-ncm" type="text" placeholder="1905.90.90" /></div>
       <div class="fg"><label>Tabela Nutricional</label>
@@ -323,7 +299,6 @@
       </div>
       <div class="fg full"><label>OBS</label><textarea id="f-obs" placeholder="Observação (opcional)"></textarea></div>
 
-      <!-- SEÇÃO DE UPLOAD INLINE -->
       <div class="upload-section">
         <span class="upload-section-label">📎 Arquivo da Tabela Nutricional</span>
         <div class="upload-inline-btns">
@@ -338,6 +313,7 @@
         <div class="upload-progress-inline" id="upload-progress-inline">
           <div class="upload-bar-inline" id="upload-bar-inline"></div>
         </div>
+        <div id="upload-status-msg"></div>
         <div class="inline-file-list" id="inline-file-list"></div>
         <p class="upload-hint">PDF, JPG ou PNG — máx. 10 MB por arquivo.</p>
       </div>
@@ -371,9 +347,7 @@
       <button class="modal-close" onclick="closeModal('modal-hist')">&times;</button>
     </div>
     <div class="hist-list" id="hist-list"><div class="hist-empty">Carregando...</div></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modal-hist')">Fechar</button>
-    </div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('modal-hist')">Fechar</button></div>
   </div>
 </div>
 
@@ -408,9 +382,7 @@
     <div class="fg" style="margin-bottom:12px"><label>Papel</label>
       <select id="u-role"><option value="editor">Editor</option><option value="admin">Admin</option></select>
     </div>
-    <div style="font-size:12px;color:var(--muted);background:var(--bg);padding:10px;border-radius:var(--radius);">
-      Uma senha temporária será gerada. Copie e envie ao usuário para o primeiro acesso.
-    </div>
+    <div style="font-size:12px;color:var(--muted);background:var(--bg);padding:10px;border-radius:var(--radius);">Uma senha temporária será gerada. Copie e envie ao usuário para o primeiro acesso.</div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-user')">Cancelar</button>
       <button class="btn btn-primary" onclick="inviteUser()" id="btn-invite">Criar usuário</button>
@@ -440,20 +412,14 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-let produtos = [];
-let usuarios = [];
-let editingId = null;
-let cancelingId = null;
-let currentUser = null;
-let currentRole = 'editor';
+let produtos = [], usuarios = [];
+let editingId = null, cancelingId = null;
+let currentUser = null, currentRole = 'editor';
 let page = 1;
 const PER_PAGE = 20;
+let pendingFiles = []; // arquivos aguardando produto novo ser salvo
 
-let pendingFiles = [];
-
-// ========================
-// AUTH
-// ========================
+// ======================== AUTH ========================
 window.doLogin = async () => {
   const email = document.getElementById('login-email').value.trim();
   const pass = document.getElementById('login-pass').value;
@@ -461,39 +427,21 @@ window.doLogin = async () => {
   errEl.className = 'error-msg';
   const btn = document.getElementById('btn-login');
   btn.innerHTML = '<span class="spinner"></span>Entrando...'; btn.disabled = true;
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-  } catch(e) {
-    errEl.textContent = traduzirErro(e.code);
-    errEl.className = 'error-msg show';
-    btn.textContent = 'Entrar'; btn.disabled = false;
-  }
+  try { await signInWithEmailAndPassword(auth, email, pass); }
+  catch(e) { errEl.textContent = traduzirErro(e.code); errEl.className = 'error-msg show'; btn.textContent = 'Entrar'; btn.disabled = false; }
 };
-
 window.doLogout = () => signOut(auth);
-
 function traduzirErro(code) {
-  const map = {
-    'auth/invalid-email': 'E-mail inválido.',
-    'auth/user-not-found': 'Usuário não encontrado.',
-    'auth/wrong-password': 'Senha incorreta.',
-    'auth/email-already-in-use': 'E-mail já cadastrado.',
-    'auth/weak-password': 'Senha deve ter no mínimo 6 caracteres.',
-    'auth/invalid-credential': 'E-mail ou senha incorretos.',
-  };
-  return map[code] || 'Erro: ' + code;
+  const m = {'auth/invalid-email':'E-mail inválido.','auth/user-not-found':'Usuário não encontrado.','auth/wrong-password':'Senha incorreta.','auth/email-already-in-use':'E-mail já cadastrado.','auth/weak-password':'Senha deve ter no mínimo 6 caracteres.','auth/invalid-credential':'E-mail ou senha incorretos.'};
+  return m[code] || 'Erro: ' + code;
 }
-
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'block';
     document.getElementById('user-email-display').textContent = user.displayName || user.email;
-    try {
-      const snap = await getDocs(collection(db, 'usuarios'));
-      snap.forEach(d => { if (d.id === user.uid) currentRole = d.data().role || 'editor'; });
-    } catch(e) {}
+    try { const snap = await getDocs(collection(db,'usuarios')); snap.forEach(d => { if(d.id===user.uid) currentRole = d.data().role||'editor'; }); } catch(e){}
     if (currentRole === 'admin') document.getElementById('tab-admin').style.display = '';
     await loadProdutos();
   } else {
@@ -505,32 +453,24 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// ========================
-// TABS
-// ========================
+// ======================== TABS ========================
 window.showTab = (t) => {
-  document.getElementById('panel-produtos').style.display = t === 'produtos' ? '' : 'none';
-  document.getElementById('panel-admin').style.display = t === 'admin' ? '' : 'none';
-  document.getElementById('tab-produtos').className = 'tab' + (t === 'produtos' ? ' active' : '');
-  document.getElementById('tab-admin').className = 'tab' + (t === 'admin' ? ' active' : '');
-  if (t === 'admin') loadUsers();
+  document.getElementById('panel-produtos').style.display = t==='produtos'?'':'none';
+  document.getElementById('panel-admin').style.display = t==='admin'?'':'none';
+  document.getElementById('tab-produtos').className = 'tab'+(t==='produtos'?' active':'');
+  document.getElementById('tab-admin').className = 'tab'+(t==='admin'?' active':'');
+  if (t==='admin') loadUsers();
 };
 
-// ========================
-// PRODUTOS
-// ========================
+// ======================== PRODUTOS ========================
 async function loadProdutos() {
   document.getElementById('loading-msg').style.display = 'block';
   document.getElementById('empty-msg').style.display = 'none';
   try {
-    const snap = await getDocs(query(collection(db, 'produtos'), orderBy('criadoEm', 'desc')));
-    produtos = [];
-    snap.forEach(d => produtos.push({ id: d.id, ...d.data() }));
-    renderStats();
-    renderTable();
-  } catch(e) {
-    toast('Erro ao carregar: ' + e.message);
-  }
+    const snap = await getDocs(query(collection(db,'produtos'), orderBy('criadoEm','desc')));
+    produtos = []; snap.forEach(d => produtos.push({id:d.id,...d.data()}));
+    renderStats(); renderTable();
+  } catch(e) { toast('Erro ao carregar: '+e.message); }
   document.getElementById('loading-msg').style.display = 'none';
 }
 
@@ -540,268 +480,241 @@ function getFiltered() {
   const mk = document.getElementById('filterMarca').value;
   const tb = document.getElementById('filterTab').value;
   return produtos.filter(p => {
-    if (q && !String(p.gtin || '').includes(q) && !(p.desc || '').toLowerCase().includes(q)) return false;
-    if (st && p.status !== st) return false;
-    if (mk && p.marca !== mk) return false;
-    if (tb && p.tab !== tb) return false;
+    if (q && !String(p.gtin||'').includes(q) && !(p.desc||'').toLowerCase().includes(q)) return false;
+    if (st && p.status!==st) return false;
+    if (mk && p.marca!==mk) return false;
+    if (tb && p.tab!==tb) return false;
     return true;
   });
 }
 
 function renderStats() {
-  const ativo = produtos.filter(p => p.status === 'Ativo').length;
-  const cancelado = produtos.filter(p => p.status === 'Cancelado').length;
-  const analise = produtos.filter(p => (p.tab || '') === 'Em análise').length;
+  const ativo = produtos.filter(p=>p.status==='Ativo').length;
+  const cancelado = produtos.filter(p=>p.status==='Cancelado').length;
+  const analise = produtos.filter(p=>p.tab==='Em análise').length;
   document.getElementById('stats').innerHTML = `
     <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value blue">${produtos.length}</div></div>
     <div class="stat-card"><div class="stat-label">Ativos</div><div class="stat-value green">${ativo}</div></div>
     <div class="stat-card"><div class="stat-label">Cancelados</div><div class="stat-value red">${cancelado}</div></div>
-    <div class="stat-card"><div class="stat-label">Em análise</div><div class="stat-value amber">${analise}</div></div>
-  `;
+    <div class="stat-card"><div class="stat-label">Em análise</div><div class="stat-value amber">${analise}</div></div>`;
 }
 
 function tabBadge(val) {
-  const v = (val || '').toLowerCase().trim();
-  if (v === 'ok') return `<span class="badge badge-ok">${val}</span>`;
-  if (v === 'em análise' || v === 'em analise') return `<span class="badge badge-analise">${val}</span>`;
-  if (v === 'cancelado') return `<span class="badge badge-cancelar">${val}</span>`;
-  return `<span style="color:var(--muted)">${val || ''}</span>`;
+  const v = (val||'').toLowerCase().trim();
+  if (v==='ok') return `<span class="badge badge-ok">${val}</span>`;
+  if (v==='em análise'||v==='em analise') return `<span class="badge badge-analise">${val}</span>`;
+  if (v==='cancelado') return `<span class="badge badge-cancelar">${val}</span>`;
+  return `<span style="color:var(--muted)">${val||''}</span>`;
 }
-
-function escapeHtml(str) {
-  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+function escapeHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 window.renderTable = () => {
   const filtered = getFiltered();
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
-  if (page > totalPages) page = totalPages;
-  const slice = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
-  document.getElementById('empty-msg').style.display = slice.length === 0 ? 'block' : 'none';
+  const totalPages = Math.max(1, Math.ceil(filtered.length/PER_PAGE));
+  if (page>totalPages) page = totalPages;
+  const slice = filtered.slice((page-1)*PER_PAGE, page*PER_PAGE);
+  document.getElementById('empty-msg').style.display = slice.length===0?'block':'none';
 
   document.getElementById('tbody').innerHTML = slice.map(p => {
     const obsHtml = p.obs
       ? `<span class="tip-wrap">💬<span class="tip-box">${escapeHtml(p.obs)}</span></span>`
       : `<span style="color:#ccc">💬</span>`;
 
-    const arqs = p.arquivos || [];
-    const arquivoHtml = arqs.length > 0
-      ? `<span class="tip-wrap" style="cursor:pointer" onclick="openViewFilesFromTable('${p.id}')">📎<span class="tip-box">${arqs.length} arquivo(s) — clique para visualizar</span></span>`
-      : `<span style="color:#ccc">📎</span>`;
+    // Sem coluna de clipe - coluna de ações inclui botão de arquivos se houver
+    const arqs = p.arquivos||[];
+    const arquivosBtn = arqs.length > 0
+      ? `<button class="act-btn" style="color:var(--teal);border-color:#a8ddd1" onclick="openViewFilesFromTable('${p.id}')" title="${arqs.length} arquivo(s)">📎 ${arqs.length}</button>`
+      : '';
 
     return `<tr>
-      <td><span class="badge ${p.status === 'Ativo' ? 'badge-ativo' : 'badge-cancelado'}">${p.status || ''}</span></td>
-      <td style="font-family:monospace;font-size:11px">${p.gtin || ''}</td>
-      <td title="${escapeHtml(p.desc)}">${p.desc || ''}</td>
-      <td>${p.marca || ''}</td>
-      <td style="font-family:monospace;font-size:11px">${p.ncm || ''}</td>
+      <td><span class="badge ${p.status==='Ativo'?'badge-ativo':'badge-cancelado'}">${p.status||''}</span></td>
+      <td style="font-family:monospace;font-size:11px">${p.gtin||''}</td>
+      <td title="${escapeHtml(p.desc)}">${p.desc||''}</td>
+      <td>${p.marca||''}</td>
+      <td style="font-family:monospace;font-size:11px">${p.ncm||''}</td>
       <td>${tabBadge(p.tab)}</td>
       <td style="text-align:center;overflow:visible">${obsHtml}</td>
-      <td style="text-align:center;overflow:visible">${arquivoHtml}</td>
-      <td>
-        <div class="action-btns">
-          <button class="act-btn act-edit" onclick="editProduto('${p.id}')">Editar</button>
-          <button class="act-btn act-hist" onclick="openHist('${p.id}')">Histórico</button>
-          ${p.status === 'Ativo' ? `<button class="act-btn act-cancel" onclick="openCancelModal('${p.id}')">Cancelar</button>` : ''}
-        </div>
-      </td>
+      <td><div class="action-btns">
+        <button class="act-btn act-edit" onclick="editProduto('${p.id}')">Editar</button>
+        <button class="act-btn act-hist" onclick="openHist('${p.id}')">Histórico</button>
+        ${arquivosBtn}
+        ${p.status==='Ativo'?`<button class="act-btn act-cancel" onclick="openCancelModal('${p.id}')">Cancelar</button>`:''}
+      </div></td>
     </tr>`;
   }).join('');
 
   let pag = `<span>${filtered.length} produto(s)</span><div class="page-btns">`;
   pag += `<button onclick="goPage(${page-1})" ${page===1?'disabled':''}>&#8249;</button>`;
-  for (let i = 1; i <= totalPages; i++) {
-    if (totalPages <= 7 || i === 1 || i === totalPages || Math.abs(i-page) <= 1)
-      pag += `<button class="${i===page?'active':''}" onclick="goPage(${i})">${i}</button>`;
-    else if (Math.abs(i-page) === 2)
-      pag += `<button disabled>…</button>`;
+  for (let i=1;i<=totalPages;i++) {
+    if (totalPages<=7||i===1||i===totalPages||Math.abs(i-page)<=1) pag+=`<button class="${i===page?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    else if (Math.abs(i-page)===2) pag+=`<button disabled>…</button>`;
   }
-  pag += `<button onclick="goPage(${page+1})" ${page===totalPages?'disabled':''}>&#8250;</button></div>`;
+  pag+=`<button onclick="goPage(${page+1})" ${page===totalPages?'disabled':''}>&#8250;</button></div>`;
   document.getElementById('pagination').innerHTML = pag;
 };
+window.goPage = p2 => { page=p2; renderTable(); };
 
-window.goPage = (p2) => { page = p2; renderTable(); };
-
-// ========================
-// MODAL PRODUTO
-// ========================
+// ======================== MODAL PRODUTO ========================
 window.openModal = (id) => {
   editingId = id || null;
   pendingFiles = [];
   document.getElementById('modal-title').textContent = id ? 'Editar produto' : 'Novo produto';
   document.getElementById('upload-progress-inline').style.display = 'none';
   document.getElementById('upload-bar-inline').style.width = '0%';
+  document.getElementById('upload-status-msg').innerHTML = '';
 
   if (id) {
-    const p = produtos.find(x => x.id === id);
+    const p = produtos.find(x=>x.id===id);
     if (!p) return;
-    document.getElementById('f-gtin').value = p.gtin || '';
-    document.getElementById('f-status').value = p.status || 'Ativo';
-    document.getElementById('f-desc').value = p.desc || '';
-    document.getElementById('f-marca').value = p.marca || 'Panimix';
-    document.getElementById('f-ncm').value = p.ncm || '';
-    document.getElementById('f-tab').value = p.tab || 'Ok';
-    document.getElementById('f-obs').value = p.obs || '';
-    renderInlineFileList(p.arquivos || []);
+    document.getElementById('f-gtin').value = p.gtin||'';
+    document.getElementById('f-status').value = p.status||'Ativo';
+    document.getElementById('f-desc').value = p.desc||'';
+    document.getElementById('f-marca').value = p.marca||'Panimix';
+    document.getElementById('f-ncm').value = p.ncm||'';
+    document.getElementById('f-tab').value = p.tab||'Ok';
+    document.getElementById('f-obs').value = p.obs||'';
+    atualizarListaArquivos(p.arquivos||[]);
   } else {
-    ['f-gtin','f-desc','f-ncm','f-obs'].forEach(fid => document.getElementById(fid).value = '');
-    document.getElementById('f-status').value = 'Ativo';
-    document.getElementById('f-marca').value = 'Panimix';
-    document.getElementById('f-tab').value = 'Ok';
-    renderInlineFileList([]);
+    ['f-gtin','f-desc','f-ncm','f-obs'].forEach(fid=>document.getElementById(fid).value='');
+    document.getElementById('f-status').value='Ativo';
+    document.getElementById('f-marca').value='Panimix';
+    document.getElementById('f-tab').value='Ok';
+    atualizarListaArquivos([]);
   }
   document.getElementById('modal-produto').classList.add('open');
 };
 
-window.editProduto = (id) => openModal(id);
-window.closeModal = (id) => document.getElementById(id).classList.remove('open');
+function atualizarListaArquivos(arquivos) {
+  const listEl = document.getElementById('inline-file-list');
+  const countEl = document.getElementById('inline-file-count');
 
-function renderInlineFileList(arquivos) {
-  const el = document.getElementById('inline-file-list');
-  const count = document.getElementById('inline-file-count');
-  const allItems = [];
+  // Mostra arquivos salvos no Firestore
+  let html = arquivos.map((f,i) => `
+    <div class="inline-file-item">
+      <span>📄</span>
+      <a href="${escapeHtml(f.url)}" target="_blank" rel="noopener">${escapeHtml(f.nome)}</a>
+      <button class="file-del" onclick="deleteFileInline(${i})" title="Remover">✕</button>
+    </div>`).join('');
 
-  if (editingId) {
-    arquivos.forEach((f, i) => {
-      allItems.push(`
-        <div class="inline-file-item">
-          <span>📄</span>
-          <a href="${escapeHtml(f.url)}" target="_blank" rel="noopener">${escapeHtml(f.nome)}</a>
-          <button class="file-del" onclick="deleteFileInline(${i})" title="Remover">✕</button>
-        </div>`);
-    });
-  }
-
-  pendingFiles.forEach((f, i) => {
-    allItems.push(`
-      <div class="inline-file-item">
-        <span>📄</span>
-        <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)">${escapeHtml(f.nome)} <em style="font-size:10px;color:var(--amber)">(pendente)</em></span>
-        <button class="file-del" onclick="removePending(${i})" title="Remover">✕</button>
-      </div>`);
+  // Mostra arquivos pendentes (produto novo)
+  pendingFiles.forEach((pf,i) => {
+    html += `<div class="inline-file-item">
+      <span>📄</span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;color:var(--muted)">${escapeHtml(pf.nome)} <em style="font-size:10px;color:var(--amber)">(pendente)</em></span>
+      <button class="file-del" onclick="removePending(${i})" title="Remover">✕</button>
+    </div>`;
   });
 
-  el.innerHTML = allItems.join('');
-
-  const totalCount = editingId
-    ? (produtos.find(x => x.id === editingId)?.arquivos || []).length
-    : pendingFiles.length;
-  count.textContent = totalCount;
+  listEl.innerHTML = html;
+  countEl.textContent = arquivos.length + pendingFiles.length;
 }
 
 window.removePending = (idx) => {
   pendingFiles.splice(idx, 1);
-  const arqs = editingId ? (produtos.find(x => x.id === editingId)?.arquivos || []) : [];
-  renderInlineFileList(arqs);
+  const arqs = editingId ? (produtos.find(x=>x.id===editingId)?.arquivos||[]) : [];
+  atualizarListaArquivos(arqs);
 };
 
 window.deleteFileInline = async (idx) => {
   if (!editingId) return;
   if (!confirm('Remover este arquivo?')) return;
-  const p = produtos.find(x => x.id === editingId);
-  const arquivos = [...(p?.arquivos || [])];
-  const [removed] = arquivos.splice(idx, 1);
+  const p = produtos.find(x=>x.id===editingId);
+  const arquivos = [...(p?.arquivos||[])];
+  const [removed] = arquivos.splice(idx,1);
   try {
-    if (removed.path) await deleteObject(ref(storage, removed.path)).catch(() => {});
-    await updateDoc(doc(db, 'produtos', editingId), { arquivos, atualizadoEm: serverTimestamp(), atualizadoPor: currentUser?.email || '' });
-    await addHistorico(editingId, 'Remoção de arquivo', `Arquivo: ${removed.nome}`);
+    if (removed.path) await deleteObject(ref(storage,removed.path)).catch(()=>{});
+    await updateDoc(doc(db,'produtos',editingId),{arquivos,atualizadoEm:serverTimestamp(),atualizadoPor:currentUser?.email||''});
+    await addHistorico(editingId,'Remoção de arquivo',`Arquivo: ${removed.nome}`);
     toast('Arquivo removido.');
     await loadProdutos();
-    const pAtual = produtos.find(x => x.id === editingId);
-    renderInlineFileList(pAtual?.arquivos || []);
-  } catch(e) { toast('Erro ao remover: ' + e.message); }
+    const pAtual = produtos.find(x=>x.id===editingId);
+    atualizarListaArquivos(pAtual?.arquivos||[]);
+  } catch(e) { toast('Erro ao remover: '+e.message); }
 };
 
-// ========================
-// UPLOAD INLINE
-// ========================
+// ======================== UPLOAD ========================
+// CORREÇÃO PRINCIPAL: upload imediato para produtos existentes
 window.handleFileInline = async (e) => {
   const file = e.target.files[0];
   if (!file) return;
   e.target.value = '';
 
-  if (file.size > 10 * 1024 * 1024) { toast('Arquivo muito grande. Máx. 10 MB.'); return; }
-  const allowed = ['application/pdf','image/jpeg','image/png'];
-  if (!allowed.includes(file.type)) { toast('Apenas PDF, JPG ou PNG são aceitos.'); return; }
+  if (file.size > 10*1024*1024) { toast('Arquivo muito grande. Máx. 10 MB.'); return; }
+  if (!['application/pdf','image/jpeg','image/png'].includes(file.type)) { toast('Apenas PDF, JPG ou PNG.'); return; }
 
-  if (!editingId) {
+  if (editingId) {
+    // Produto já existe no Firestore → faz upload imediato
+    await doUpload(file, editingId);
+  } else {
+    // Produto ainda não existe → guarda como pendente
     pendingFiles.push({ nome: file.name, file });
-    renderInlineFileList([]);
-    toast('Arquivo adicionado. Salve o produto para concluir o envio.');
-    return;
+    atualizarListaArquivos([]);
+    document.getElementById('upload-status-msg').innerHTML =
+      `<div class="upload-status-msg pending">📎 ${pendingFiles.length} arquivo(s) será(ão) enviado(s) ao salvar o produto.</div>`;
   }
-
-  await doUpload(file, editingId);
 };
 
 async function doUpload(file, prodId) {
   const progWrap = document.getElementById('upload-progress-inline');
   const bar = document.getElementById('upload-bar-inline');
+  const statusEl = document.getElementById('upload-status-msg');
+
   progWrap.style.display = 'block';
   bar.style.width = '0%';
-
-  const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-  const path = `tabelas/${prodId}/${Date.now()}_${safeFileName}`;
+  statusEl.innerHTML = `<div class="upload-status-msg uploading">⏳ Enviando ${file.name}...</div>`;
 
   try {
+    const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const path = `tabelas/${prodId}/${Date.now()}_${safeFileName}`;
     const storRef = ref(storage, path);
     const task = uploadBytesResumable(storRef, file);
 
     await new Promise((resolve, reject) => {
       task.on('state_changed',
-        snap => {
-          bar.style.width = Math.round(snap.bytesTransferred / snap.totalBytes * 100) + '%';
-        },
+        snap => { bar.style.width = Math.round(snap.bytesTransferred/snap.totalBytes*100)+'%'; },
         err => reject(err),
         async () => {
           try {
             const url = await getDownloadURL(task.snapshot.ref);
-            const p = produtos.find(x => x.id === prodId);
-            const arquivos = [...(p?.arquivos || []), { nome: file.name, url, path }];
-            await updateDoc(doc(db, 'produtos', prodId), {
-              arquivos,
-              atualizadoEm: serverTimestamp(),
-              atualizadoPor: currentUser?.email || ''
-            });
-            await addHistorico(prodId, 'Upload de arquivo', `Arquivo: ${file.name}`);
+            const p = produtos.find(x=>x.id===prodId);
+            const arquivos = [...(p?.arquivos||[]), {nome:file.name, url, path}];
+            await updateDoc(doc(db,'produtos',prodId),{arquivos,atualizadoEm:serverTimestamp(),atualizadoPor:currentUser?.email||''});
+            await addHistorico(prodId,'Upload de arquivo',`Arquivo: ${file.name}`);
             resolve();
           } catch(e2) { reject(e2); }
         }
       );
     });
 
-    toast('✅ Arquivo enviado com sucesso!');
     progWrap.style.display = 'none';
+    statusEl.innerHTML = `<div class="upload-status-msg success">✅ ${file.name} enviado com sucesso!</div>`;
+    setTimeout(() => { statusEl.innerHTML = ''; }, 3000);
+
     await loadProdutos();
-    const pAtual = produtos.find(x => x.id === prodId);
-    renderInlineFileList(pAtual?.arquivos || []);
+    const pAtual = produtos.find(x=>x.id===prodId);
+    atualizarListaArquivos(pAtual?.arquivos||[]);
 
   } catch(err) {
     progWrap.style.display = 'none';
+    statusEl.innerHTML = '';
     console.error('Upload error:', err);
-    toast('Erro no upload: ' + (err.message || err.code || 'Erro desconhecido'));
+    toast('Erro no upload: ' + (err.message||err.code||'Erro desconhecido'));
   }
 }
 
 async function uploadPendingFiles(prodId) {
   for (const pf of pendingFiles) {
-    try {
-      await doUpload(pf.file, prodId);
-    } catch(e) {
-      toast(`Erro ao enviar "${pf.nome}": ${e.message}`);
-    }
+    try { await doUpload(pf.file, prodId); }
+    catch(e) { toast(`Erro ao enviar "${pf.nome}": ${e.message}`); }
   }
   pendingFiles = [];
 }
 
-// ========================
-// SALVAR PRODUTO
-// ========================
+// ======================== SALVAR PRODUTO ========================
 window.saveProduto = async () => {
   const gtin = document.getElementById('f-gtin').value.trim();
   const desc = document.getElementById('f-desc').value.trim();
-  if (!gtin || !desc) { toast('Preencha GTIN e Descrição.'); return; }
-
+  if (!gtin||!desc) { toast('Preencha GTIN e Descrição.'); return; }
   const obj = {
     gtin, desc,
     status: document.getElementById('f-status').value,
@@ -810,254 +723,167 @@ window.saveProduto = async () => {
     tab: document.getElementById('f-tab').value,
     obs: document.getElementById('f-obs').value.trim(),
     atualizadoEm: serverTimestamp(),
-    atualizadoPor: currentUser?.email || '',
+    atualizadoPor: currentUser?.email||'',
   };
-
   const btn = document.getElementById('btn-save');
   btn.innerHTML = '<span class="spinner"></span>Salvando...'; btn.disabled = true;
-
   try {
     if (editingId) {
-      const antes = produtos.find(x => x.id === editingId);
-      await updateDoc(doc(db, 'produtos', editingId), obj);
-      await addHistorico(editingId, 'Edição', gerarDiff(antes, obj));
+      const antes = produtos.find(x=>x.id===editingId);
+      await updateDoc(doc(db,'produtos',editingId), obj);
+      await addHistorico(editingId,'Edição',gerarDiff(antes,obj));
     } else {
-      obj.criadoEm = serverTimestamp();
-      obj.criadoPor = currentUser?.email || '';
-      obj.arquivos = [];
-      const docRef = await addDoc(collection(db, 'produtos'), obj);
-      await addHistorico(docRef.id, 'Criação', 'Produto cadastrado.');
-
+      obj.criadoEm = serverTimestamp(); obj.criadoPor = currentUser?.email||''; obj.arquivos = [];
+      const docRef = await addDoc(collection(db,'produtos'), obj);
+      await addHistorico(docRef.id,'Criação','Produto cadastrado.');
       if (pendingFiles.length > 0) {
         btn.innerHTML = '<span class="spinner"></span>Enviando arquivos...';
-        produtos.unshift({ id: docRef.id, ...obj, arquivos: [] });
+        // Adiciona temporariamente ao array para doUpload encontrar o produto
+        produtos.unshift({id:docRef.id,...obj,arquivos:[]});
         await uploadPendingFiles(docRef.id);
       }
     }
-
     closeModal('modal-produto');
     toast('✅ Salvo com sucesso!');
     await loadProdutos();
-  } catch(e) {
-    toast('Erro: ' + e.message);
-  } finally {
-    btn.textContent = 'Salvar'; btn.disabled = false;
-  }
+  } catch(e) { toast('Erro: '+e.message); }
+  finally { btn.textContent='Salvar'; btn.disabled=false; }
 };
 
 function gerarDiff(antes, depois) {
-  const campos = { gtin:'GTIN', desc:'Descrição', status:'Status', marca:'Marca', ncm:'NCM', tab:'Tab. Nutricional', obs:'OBS' };
-  const linhas = [];
-  for (const [k, label] of Object.entries(campos)) {
-    if ((antes[k] || '') !== (depois[k] || '')) linhas.push(`${label}: "${antes[k] || ''}" → "${depois[k] || ''}"`);
+  const campos = {gtin:'GTIN',desc:'Descrição',status:'Status',marca:'Marca',ncm:'NCM',tab:'Tab. Nutricional',obs:'OBS'};
+  const linhas=[];
+  for (const [k,label] of Object.entries(campos)) {
+    if ((antes[k]||'')!==(depois[k]||'')) linhas.push(`${label}: "${antes[k]||''}" → "${depois[k]||''}"`);
   }
-  return linhas.length ? linhas.join('\n') : 'Sem alterações de campos.';
+  return linhas.length?linhas.join('\n'):'Sem alterações de campos.';
 }
 
-// ========================
-// VISUALIZAR ARQUIVOS
-// ========================
+// ======================== VISUALIZAR ARQUIVOS ========================
 window.openViewFilesModal = () => {
-  const arquivos = editingId
-    ? (produtos.find(x => x.id === editingId)?.arquivos || [])
-    : [];
-  const desc = editingId ? (produtos.find(x => x.id === editingId)?.desc || '') : 'Novo produto';
+  const arquivos = editingId ? (produtos.find(x=>x.id===editingId)?.arquivos||[]) : [];
+  const desc = editingId ? (produtos.find(x=>x.id===editingId)?.desc||'') : 'Novo produto';
   document.getElementById('view-files-title').textContent = `Arquivos — ${desc}`;
   buildViewFilesList(arquivos, pendingFiles);
   document.getElementById('modal-view-files').classList.add('open');
 };
 
 window.openViewFilesFromTable = (id) => {
-  const p = produtos.find(x => x.id === id);
-  document.getElementById('view-files-title').textContent = `Arquivos — ${p?.desc || ''}`;
-  buildViewFilesList(p?.arquivos || [], []);
+  const p = produtos.find(x=>x.id===id);
+  document.getElementById('view-files-title').textContent = `Arquivos — ${p?.desc||''}`;
+  buildViewFilesList(p?.arquivos||[], []);
   document.getElementById('modal-view-files').classList.add('open');
 };
 
 function buildViewFilesList(arquivos, pending) {
   const el = document.getElementById('view-files-list');
   const items = [];
-
   arquivos.forEach(f => {
-    const ext = (f.nome || '').split('.').pop().toLowerCase();
-    const icon = ext === 'pdf' ? '📕' : '🖼️';
-    items.push(`
-      <div class="view-file-item">
-        <span class="file-icon">${icon}</span>
-        <span class="file-name">${escapeHtml(f.nome)}</span>
-        <a class="btn-abrir" href="${escapeHtml(f.url)}" target="_blank" rel="noopener">🔗 Abrir</a>
-      </div>`);
+    const ext = (f.nome||'').split('.').pop().toLowerCase();
+    const icon = ext==='pdf'?'📕':'🖼️';
+    items.push(`<div class="view-file-item">
+      <span class="file-icon">${icon}</span>
+      <span class="file-name">${escapeHtml(f.nome)}</span>
+      <a class="btn-abrir" href="${escapeHtml(f.url)}" target="_blank" rel="noopener">🔗 Abrir</a>
+    </div>`);
   });
-
-  if (pending && pending.length > 0) {
+  if (pending&&pending.length>0) {
     pending.forEach(f => {
-      items.push(`
-        <div class="view-file-item" style="opacity:0.7">
-          <span class="file-icon">📄</span>
-          <span class="file-name">${escapeHtml(f.nome)} <em style="font-size:11px;color:var(--amber)">(aguardando salvar)</em></span>
-        </div>`);
+      items.push(`<div class="view-file-item" style="opacity:0.65">
+        <span class="file-icon">📄</span>
+        <span class="file-name">${escapeHtml(f.nome)} <em style="font-size:11px;color:var(--amber)">(aguardando salvar)</em></span>
+      </div>`);
     });
   }
-
-  el.innerHTML = items.length
-    ? items.join('')
-    : '<div class="view-empty">Nenhum arquivo anexado ainda.</div>';
+  el.innerHTML = items.length ? items.join('') : '<div class="view-empty">Nenhum arquivo anexado ainda.</div>';
 }
 
-// ========================
-// CANCELAMENTO
-// ========================
-window.openCancelModal = (id) => {
-  cancelingId = id;
-  document.getElementById('cancel-motivo').value = '';
-  document.getElementById('modal-cancel').classList.add('open');
-};
-
+// ======================== CANCELAMENTO ========================
+window.openCancelModal = (id) => { cancelingId=id; document.getElementById('cancel-motivo').value=''; document.getElementById('modal-cancel').classList.add('open'); };
 window.confirmCancel = async () => {
   const motivo = document.getElementById('cancel-motivo').value.trim();
   if (!motivo) { toast('Informe o motivo do cancelamento.'); return; }
   try {
-    await updateDoc(doc(db, 'produtos', cancelingId), {
-      status: 'Cancelado', tab: 'Cancelado',
-      atualizadoEm: serverTimestamp(), atualizadoPor: currentUser?.email || ''
-    });
-    await addHistorico(cancelingId, 'Cancelamento', `Motivo: ${motivo}`);
-    closeModal('modal-cancel');
-    toast('Produto cancelado.');
-    await loadProdutos();
-  } catch(e) { toast('Erro: ' + e.message); }
+    await updateDoc(doc(db,'produtos',cancelingId),{status:'Cancelado',tab:'Cancelado',atualizadoEm:serverTimestamp(),atualizadoPor:currentUser?.email||''});
+    await addHistorico(cancelingId,'Cancelamento',`Motivo: ${motivo}`);
+    closeModal('modal-cancel'); toast('Produto cancelado.'); await loadProdutos();
+  } catch(e) { toast('Erro: '+e.message); }
 };
 
-// ========================
-// HISTÓRICO
-// ========================
-async function addHistorico(produtoId, acao, detalhe) {
-  try {
-    await addDoc(collection(db, 'produtos', produtoId, 'historico'), {
-      acao, detalhe,
-      por: currentUser?.email || '',
-      nome: currentUser?.displayName || currentUser?.email || '',
-      em: serverTimestamp(),
-    });
-  } catch(e) { console.warn('addHistorico falhou:', e); }
+// ======================== HISTÓRICO ========================
+async function addHistorico(produtoId,acao,detalhe) {
+  try { await addDoc(collection(db,'produtos',produtoId,'historico'),{acao,detalhe,por:currentUser?.email||'',nome:currentUser?.displayName||currentUser?.email||'',em:serverTimestamp()}); }
+  catch(e){ console.warn('addHistorico falhou:',e); }
 }
-
 window.openHist = async (id) => {
-  const p = produtos.find(x => x.id === id);
-  document.getElementById('hist-title').textContent = `Histórico — ${p?.desc || id}`;
-  document.getElementById('hist-list').innerHTML = '<div class="hist-empty"><span class="spinner spinner-dark"></span> Carregando...</div>';
+  const p = produtos.find(x=>x.id===id);
+  document.getElementById('hist-title').textContent = `Histórico — ${p?.desc||id}`;
+  document.getElementById('hist-list').innerHTML='<div class="hist-empty"><span class="spinner spinner-dark"></span> Carregando...</div>';
   document.getElementById('modal-hist').classList.add('open');
   try {
-    const snap = await getDocs(query(collection(db, 'produtos', id, 'historico'), orderBy('em', 'desc')));
-    const items = [];
-    snap.forEach(d => items.push(d.data()));
-    if (!items.length) {
-      document.getElementById('hist-list').innerHTML = '<div class="hist-empty">Nenhum registro ainda.</div>';
-    } else {
-      document.getElementById('hist-list').innerHTML = items.map(h => {
-        const dt = h.em?.toDate ? h.em.toDate().toLocaleString('pt-BR') : '—';
-        return `<div class="hist-item">
-          <div><span class="hist-who">${escapeHtml(h.nome || h.por || '?')}</span><span class="hist-when">${dt}</span></div>
-          <div class="hist-action"><strong>${escapeHtml(h.acao)}</strong>${h.detalhe ? '\n' + escapeHtml(h.detalhe) : ''}</div>
-        </div>`;
-      }).join('');
-    }
-  } catch(e) {
-    document.getElementById('hist-list').innerHTML = '<div class="hist-empty">Erro ao carregar histórico.</div>';
-  }
+    const snap = await getDocs(query(collection(db,'produtos',id,'historico'),orderBy('em','desc')));
+    const items=[]; snap.forEach(d=>items.push(d.data()));
+    document.getElementById('hist-list').innerHTML = items.length
+      ? items.map(h=>`<div class="hist-item"><div><span class="hist-who">${escapeHtml(h.nome||h.por||'?')}</span><span class="hist-when">${h.em?.toDate?h.em.toDate().toLocaleString('pt-BR'):'—'}</span></div><div class="hist-action"><strong>${escapeHtml(h.acao)}</strong>${h.detalhe?'\n'+escapeHtml(h.detalhe):''}</div></div>`).join('')
+      : '<div class="hist-empty">Nenhum registro ainda.</div>';
+  } catch(e) { document.getElementById('hist-list').innerHTML='<div class="hist-empty">Erro ao carregar.</div>'; }
 };
 
-// ========================
-// EXPORTAR
-// ========================
+// ======================== EXPORTAR ========================
 window.exportExcel = () => {
   const filtered = getFiltered();
-  const rows = [['Status','GTIN','Descrição','Marca','NCM','Tab. Nutricional','OBS']];
-  filtered.forEach(p => rows.push([p.status||'', p.gtin||'', p.desc||'', p.marca||'', p.ncm||'', p.tab||'', p.obs||'']));
-  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(';')).join('\r\n');
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `produtos_panimix_${new Date().toISOString().slice(0,10)}.csv`;
-  a.click();
+  const rows=[['Status','GTIN','Descrição','Marca','NCM','Tab. Nutricional','OBS']];
+  filtered.forEach(p=>rows.push([p.status||'',p.gtin||'',p.desc||'',p.marca||'',p.ncm||'',p.tab||'',p.obs||'']));
+  const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(';')).join('\r\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`produtos_panimix_${new Date().toISOString().slice(0,10)}.csv`; a.click();
   toast('Exportado! Abra o arquivo no Excel.');
 };
 
-// ========================
-// USERS
-// ========================
+// ======================== USERS ========================
 async function loadUsers() {
-  document.getElementById('users-loading').style.display = 'block';
-  try {
-    const snap = await getDocs(collection(db, 'usuarios'));
-    usuarios = [];
-    snap.forEach(d => usuarios.push({ id: d.id, ...d.data() }));
-    renderUsers();
-  } catch(e) { toast('Erro ao carregar usuários.'); }
-  document.getElementById('users-loading').style.display = 'none';
+  document.getElementById('users-loading').style.display='block';
+  try { const snap=await getDocs(collection(db,'usuarios')); usuarios=[]; snap.forEach(d=>usuarios.push({id:d.id,...d.data()})); renderUsers(); }
+  catch(e){ toast('Erro ao carregar usuários.'); }
+  document.getElementById('users-loading').style.display='none';
 }
-
 function renderUsers() {
-  document.getElementById('users-tbody').innerHTML = usuarios.map(u => `
+  document.getElementById('users-tbody').innerHTML=usuarios.map(u=>`
     <tr>
-      <td>${escapeHtml(u.nome || '-')}</td>
-      <td>${escapeHtml(u.email || '-')}</td>
-      <td><span class="badge ${u.role === 'admin' ? 'badge-ativo' : 'badge-analise'}">${u.role || 'editor'}</span></td>
-      <td style="color:var(--muted);font-size:12px">${u.criadoEm?.toDate ? u.criadoEm.toDate().toLocaleDateString('pt-BR') : '-'}</td>
-      <td>
-        <select onchange="changeRole('${u.id}', this.value)" style="font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:6px;background:var(--surface)">
-          <option ${u.role==='editor'?'selected':''} value="editor">editor</option>
-          <option ${u.role==='admin'?'selected':''} value="admin">admin</option>
-        </select>
-      </td>
-    </tr>
-  `).join('');
+      <td>${escapeHtml(u.nome||'-')}</td><td>${escapeHtml(u.email||'-')}</td>
+      <td><span class="badge ${u.role==='admin'?'badge-ativo':'badge-analise'}">${u.role||'editor'}</span></td>
+      <td style="color:var(--muted);font-size:12px">${u.criadoEm?.toDate?u.criadoEm.toDate().toLocaleDateString('pt-BR'):'-'}</td>
+      <td><select onchange="changeRole('${u.id}',this.value)" style="font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:6px;background:var(--surface)">
+        <option ${u.role==='editor'?'selected':''} value="editor">editor</option>
+        <option ${u.role==='admin'?'selected':''} value="admin">admin</option>
+      </select></td>
+    </tr>`).join('');
 }
-
-window.changeRole = async (uid, role) => {
-  try {
-    await updateDoc(doc(db, 'usuarios', uid), { role });
-    toast('Papel atualizado.');
-  } catch(e) { toast('Erro: ' + e.message); }
-};
-
-window.openUserModal = () => {
-  ['u-email','u-name'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('modal-user').classList.add('open');
-};
-
+window.changeRole = async (uid,role) => { try { await updateDoc(doc(db,'usuarios',uid),{role}); toast('Papel atualizado.'); } catch(e){ toast('Erro: '+e.message); } };
+window.openUserModal = () => { ['u-email','u-name'].forEach(id=>document.getElementById(id).value=''); document.getElementById('modal-user').classList.add('open'); };
 window.inviteUser = async () => {
-  const email = document.getElementById('u-email').value.trim();
-  const name = document.getElementById('u-name').value.trim();
-  const role = document.getElementById('u-role').value;
-  if (!email || !name) { toast('Preencha e-mail e nome.'); return; }
-  const btn = document.getElementById('btn-invite');
-  btn.innerHTML = '<span class="spinner"></span>Criando...'; btn.disabled = true;
+  const email=document.getElementById('u-email').value.trim(), name=document.getElementById('u-name').value.trim(), role=document.getElementById('u-role').value;
+  if (!email||!name) { toast('Preencha e-mail e nome.'); return; }
+  const btn=document.getElementById('btn-invite');
+  btn.innerHTML='<span class="spinner"></span>Criando...'; btn.disabled=true;
   try {
-    const tempPass = Math.random().toString(36).slice(-8) + 'A1!';
-    const cred = await createUserWithEmailAndPassword(auth, email, tempPass);
-    await updateProfile(cred.user, { displayName: name });
-    await setDoc(doc(db, 'usuarios', cred.user.uid), { nome: name, email, role, criadoEm: serverTimestamp() });
-    closeModal('modal-user');
-    toast(`✅ Usuário criado! Senha temporária: ${tempPass}`);
-    await loadUsers();
-  } catch(e) { toast('Erro: ' + traduzirErro(e.code)); }
-  finally {
-    btn.textContent = 'Criar usuário'; btn.disabled = false;
-  }
+    const tempPass=Math.random().toString(36).slice(-8)+'A1!';
+    const cred=await createUserWithEmailAndPassword(auth,email,tempPass);
+    await updateProfile(cred.user,{displayName:name});
+    await setDoc(doc(db,'usuarios',cred.user.uid),{nome:name,email,role,criadoEm:serverTimestamp()});
+    closeModal('modal-user'); toast(`✅ Usuário criado! Senha temporária: ${tempPass}`); await loadUsers();
+  } catch(e){ toast('Erro: '+traduzirErro(e.code)); }
+  finally { btn.textContent='Criar usuário'; btn.disabled=false; }
 };
 
-// ========================
-// TOAST
-// ========================
-window.toast = (msg) => {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'show';
-  setTimeout(() => { t.className = ''; }, 4500);
-};
+// ======================== TOAST + MODAL CLOSE ========================
+window.toast = (msg) => { const t=document.getElementById('toast'); t.textContent=msg; t.className='show'; setTimeout(()=>{ t.className=''; },4500); };
+window.closeModal = (id) => document.getElementById(id).classList.remove('open');
+window.editProduto = (id) => openModal(id);
 
 document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+  el.addEventListener('click', e => { if(e.target===el) el.classList.remove('open'); });
 });
 </script>
 </body>
